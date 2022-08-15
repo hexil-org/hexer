@@ -1,0 +1,10 @@
+[package]
+name = "hexil-back"
+description = "The backend of hexil.org"
+version = "0.1.0"
+authors = ["Marijn van Wezel", "Stef Gijsberts"]
+edition = "2021"
+repository = "https://github.com/hexil-org/hexil"
+license = "AGPL-3.0-or-later"
+
+[dependencies]
