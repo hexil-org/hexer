@@ -1,6 +1,6 @@
 # Copying hexer
 
-This directory contains hexer. Hexer is copyright of the hexer authors.
+This directory contains hexer. Hexer is copyright of the hexer authors -
 copyright (c) 2022 the hexer authors.
 
 For a list of the hexer authors see the version control history.
