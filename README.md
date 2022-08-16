@@ -2,22 +2,14 @@
 
 ## Getting started for developers
 
-To run hexer locally, first start the backend, and then open the frontend.
-
 ### Backend
 
 1.  Install Rust and Cargo, for example [using
     _rustup_](https://www.rust-lang.org/tools/install).
 
-2.  Enter the backend directory:
+2.  Navigate to the `back` directory. Then start the backend:
 
     ```sh
-    cd back
-    ```
-
-3.  Start the server:
-
-    ```
     cargo run
     ```
 
@@ -25,19 +17,14 @@ To run hexer locally, first start the backend, and then open the frontend.
 
 1.  [Install TypeScript](https://www.typescriptlang.org/download).
 
-2.  Enter the frontend directory:
+2.  Navigate to the `front` directory. Then start the TypeScript Compiler in
+    watch mode:
 
     ```sh
-    cd front
-    ```
-
-3.  Start the TypeScript Compiler in watch mode:
-
-    ```
     tsc --watch
     ```
 
-4.  Open `index.html`.
+3.  Open `index.html` in your webbrowser.
 
 ## License
 
