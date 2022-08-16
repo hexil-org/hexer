@@ -1,3 +1,8 @@
+[dependencies]
+futures = "0.3.23"
+tokio = { version = "1.20.1", features = ["rt-multi-thread", "macros"]  }
+tokio-tungstenite = "0.17.2"
+
 [package]
 name = "hexer-back"
 description = "The backend of hexer"
