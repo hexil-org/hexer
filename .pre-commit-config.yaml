@@ -13,11 +13,6 @@ repos:
             entry: rustfmt --edition 2021
             types: [rust]
             language: system
-          - id: cargo-clippy
-            name: Check Rust code
-            entry: sh -c 'cd back && cargo clippy'
-            always_run: true
-            language: system
     - repo: https://github.com/pappasam/toml-sort
       rev: "19423fc29e15ecdb79615f5b02239a63b098d9b1"
       hooks:
