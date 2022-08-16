@@ -1,0 +1,28 @@
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v3.2.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-yaml
+          - id: check-added-large-files
+    - repo: local
+      hooks:
+          - id: cargo-fmt
+            name: Format Rust code
+            entry: rustfmt
+            types: [rust]
+            language: system
+          - id: cargo-clippy
+            name: Check Rust code
+            entry: sh -c 'cd back && cargo clippy'
+            always_run: true
+            language: system
+    - repo: https://github.com/pappasam/toml-sort
+      rev: "19423fc29e15ecdb79615f5b02239a63b098d9b1"
+      hooks:
+          - id: toml-sort
+    - repo: https://github.com/pre-commit/mirrors-prettier
+      rev: "50c5478ed9e10bf360335449280cf2a67f4edb7a"
+      hooks:
+          - id: prettier

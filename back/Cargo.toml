@@ -6,5 +6,3 @@ authors = ["Marijn van Wezel", "Stef Gijsberts"]
 edition = "2021"
 repository = "https://github.com/hexil-org/hexer"
 license = "AGPL-3.0-or-later"
-
-[dependencies]
