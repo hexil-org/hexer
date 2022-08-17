@@ -1,22 +1,34 @@
-name: Backend Tests
+name: Backend tests
 
 on:
     pull_request:
         branches: [main]
+    workflow_dispatch:
+    push:
 
 jobs:
-    backend-tests:
-        runs-on: ubuntu-latest
+    unit:
+        name: "Unit testing"
+        runs-on: "ubuntu-latest"
+
         steps:
-            - uses: actions/checkout@v3
-            - run: rustup toolchain install stable --component llvm-tools-preview
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Install Rust
+              run: rustup toolchain install stable --component llvm-tools-preview
+
             - name: Install cargo-llvm-cov
               uses: taiki-e/install-action@cargo-llvm-cov
-            - uses: actions/cache@v3
+
+            - name: Cache dependencies
+              uses: actions/cache@v3
               with:
                   path: |
                       target
                       ~/.cargo/registry
                       ~/.cargo/git
                   key: cargo-${{ hashFiles('**/Cargo.lock') }}
-            - run: cargo llvm-cov --manifest-path back/Cargo.toml
+
+            - name: Check coverage report
+              run: cargo llvm-cov --manifest-path back/Cargo.toml

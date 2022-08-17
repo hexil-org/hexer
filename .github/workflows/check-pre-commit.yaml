@@ -3,17 +3,26 @@ name: Check pre-commit
 on:
     pull_request:
         branches: [main]
+    workflow_dispatch:
+    push:
 
 jobs:
     check-pre-commit:
-        runs-on: ubuntu-latest
+        name: "Check pre-commit"
+        runs-on: "ubuntu-latest"
+        description: "Makes sure all required pre-commit hooks have been run"
+
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-python@v3
-            - run: pip install pre-commit
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Set up Python
+              uses: actions/setup-python@v3
+            - name: Install pre-commit
+              run: pip install pre-commit
             - name: Cache pre-commit
               uses: actions/cache@v3
               with:
                   path: ~/.cache/pre-commit
                   key: precommit-${{ hashFiles('.pre-commit-config.yaml') }}
-            - run: pre-commit run --all
+            - name: Run pre-commit
+              run: pre-commit run --all
