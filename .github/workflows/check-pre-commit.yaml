@@ -27,6 +27,6 @@ jobs:
               with:
                   path: ~/.cache/pre-commit
                   key: precommit-${{ hashFiles('.pre-commit-config.yaml') }}
-            
+
             - name: Run pre-commit
               run: pre-commit run --all

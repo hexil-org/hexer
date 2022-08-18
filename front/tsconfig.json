@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "module": "ES2015",
-        "target": "ES2015",
+        "module": "es6",
+        "target": "es5",
         "sourceMap": true,
         "noImplicitAny": true,
         "noImplicitThis": true,
@@ -9,7 +9,7 @@
         "alwaysStrict": true,
         "strictFunctionTypes": true,
         "strict": true,
-        "removeComments": false
-    },
-    "files": ["script.ts"]
+        "removeComments": false,
+        "moduleResolution": "node"
+    }
 }
