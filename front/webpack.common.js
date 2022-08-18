@@ -13,6 +13,10 @@ module.exports = {
         ],
     },
     plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
+    resolve: {
+        extensions: [".ts", ".js", ".json"],
+    },
+
     output: {
         filename: "main.js",
         path: path.resolve(__dirname, "dist"),
