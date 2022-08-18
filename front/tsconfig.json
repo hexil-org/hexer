@@ -10,6 +10,8 @@
         "strictFunctionTypes": true,
         "strict": true,
         "removeComments": false,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true
     }
 }
