@@ -10,7 +10,6 @@ jobs:
     check-pre-commit:
         name: "Check pre-commit"
         runs-on: "ubuntu-latest"
-        description: "Makes sure all required pre-commit hooks have been run"
 
         steps:
             - name: Checkout repository
