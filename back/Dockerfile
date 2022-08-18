@@ -5,4 +5,5 @@ COPY . .
 
 RUN cargo install --path .
 
-CMD ["hexil-back"]
+EXPOSE 80
+CMD ["hexil-back", "0.0.0.0:80"]
