@@ -15,16 +15,19 @@
 
 ### Frontend
 
-1.  [Install TypeScript](https://www.typescriptlang.org/download).
+1.  [Install nodejs](https://nodejs.org/en/).
 
-2.  Navigate to the `front` directory. Then start the TypeScript Compiler in
-    watch mode:
+2.  Navigate to the `front` directory. Then first install the dependencies:
 
     ```sh
-    tsc --watch
+    npm install
     ```
 
-3.  Open `index.html` in your webbrowser.
+3.  Start a local development server:
+
+    ```sh
+    npm start
+    ```
 
 ## License
 
