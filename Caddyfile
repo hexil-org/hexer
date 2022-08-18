@@ -1,0 +1,10 @@
+{$HEXER_ADDRESS:localhost} {
+	reverse_proxy http://front
+
+	@websocket {
+		header Connection *Upgrade*
+		header Upgrade websocket
+	}
+
+	reverse_proxy @websocket http://back
+}

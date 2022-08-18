@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+    front:
+        build: "./front"
+        restart: unless-stopped
+
+    back:
+        build: "./back"
+        restart: unless-stopped
+
+    reverse-proxy:
+        image: "caddy:2.3.0-alpine"
+        restart: unless-stopped
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+        ports:
+            - "443:443"
+            - "80:80"
+        environment:
+            - HEXER_ADDRESS
