@@ -1,3 +1,5 @@
+import config from "./config.json";
+
 function once(target: EventTarget, name: string) {
     return new Promise((resolve, reject) => {
         target.addEventListener(
@@ -13,7 +15,7 @@ function once(target: EventTarget, name: string) {
 async function main() {
     console.log("Trying to connect to the backend..");
 
-    const socket = new WebSocket("ws://localhost:8080");
+    const socket = new WebSocket(config.backendUrl);
 
     await once(socket, "open");
     console.log("Connected!");
