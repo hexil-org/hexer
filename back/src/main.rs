@@ -12,7 +12,7 @@ use tokio_tungstenite::WebSocketStream;
 async fn main() -> Result<(), Error> {
     let addr = env::args()
         .nth(1)
-        .unwrap_or_else(|| "127.0.0.1:8080".to_string());
+        .unwrap_or_else(|| "127.0.0.1:9450".to_string());
 
     let listener = TcpListener::bind(&addr).await?;
 
