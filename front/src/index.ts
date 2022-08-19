@@ -1,5 +1,3 @@
-import config from "./config.json";
-
 function once(target: EventTarget, name: string) {
     return new Promise((resolve, reject) => {
         target.addEventListener(
@@ -12,10 +10,20 @@ function once(target: EventTarget, name: string) {
     });
 }
 
+function getBackendUrl() {
+    if (location.host === "localhost:9451") {
+        return "ws://localhost:9450";
+    }
+
+    const backendProtocol = location.protocol === "http" ? "ws" : "wss";
+    return backendProtocol + "://" + location.host + location.pathname;
+}
+
 async function main() {
     console.log("Trying to connect to the backend..");
 
-    const socket = new WebSocket(config.backendUrl);
+    const backendUrl = getBackendUrl();
+    const socket = new WebSocket(backendUrl);
 
     await once(socket, "open");
     console.log("Connected!");
