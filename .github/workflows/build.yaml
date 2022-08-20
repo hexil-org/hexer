@@ -5,6 +5,9 @@ on:
     push:
         branches: [main]
 
+env:
+    REGISTRY: ghcr.io
+
 jobs:
     unit:
         name: "Build Docker containers"
@@ -26,7 +29,7 @@ jobs:
             - name: Log in to the GitHub Container registry
               uses: docker/login-action@d398f07826957cd0a18ea1b059cf1207835e60bc
               with:
-                  registry: ghcr.io
+                  registry: ${{ env.REGISTRY }}
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
