@@ -1,3 +1,6 @@
+![Backend tests badge](https://github.com/hexil-org/hexer/actions/workflows/backend-tests.yaml/badge.svg)
+![Pre-commit check badge](https://github.com/hexil-org/hexer/actions/workflows/check-pre-commit.yaml/badge.svg)
+
 # Hexer
 
 ## Getting started for developers
