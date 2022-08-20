@@ -11,7 +11,7 @@ env:
     REGISTRY: ghcr.io
 
 jobs:
-    unit:
+    build:
         name: "Build Docker containers"
         runs-on: "ubuntu-latest"
         permissions:
