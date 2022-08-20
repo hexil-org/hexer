@@ -2,7 +2,9 @@ name: Build
 
 on:
     workflow_dispatch:
-    push:
+    workflow_run:
+        workflows: [Check]
+        types: [completed]
         branches: [main]
 
 env:
