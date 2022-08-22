@@ -6,9 +6,6 @@ on:
         types: [completed]
         branches: [main]
 
-env:
-    REGISTRY: ghcr.io
-
 jobs:
     deploy-production:
         name: "Deploy to production"
