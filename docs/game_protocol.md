@@ -46,7 +46,7 @@ Message parameters:
 
 ### `order`
 
-Tells the players the order in which they get a turn.
+Tells the player the order in which they and the other players get a turn.
 
 Message parameters:
 
