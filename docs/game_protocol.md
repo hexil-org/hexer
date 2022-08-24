@@ -12,12 +12,20 @@ as an implementation detail.
 ## Game establishment
 
 A player will join the game when they establish a connection with the server.
-As soon as a player joins, they will be assigned a unique identifier by the
-server. This identifier will be announced to the player using an **id**
-message. Once three players have joined, the server will initiate the game, and
-send the order in which players get a turn using an **order** message.
+Once three players have joined, the server will initiate the game by randomly
+assigning each player a unique identifier from `0` to `2`. This identifier
+will be announced to the player by sending them an **id** message. The player
+with identifier `n` will henceforth be called _player n_. For example, _player
+2_ is the player with identifier `2`.
 
 ## Executing turns
+
+### Order of turns
+
+Player 0 will always get the first turn. After player 0 has ended their turn, it
+will be player 1's turn. After player 1 has ended their turn, it will be player
+2's turn, and so on. In general, after player _n_ has ended their turn, it will be
+player _n + 1 % 3_'s turn.
 
 ### Ending a turn
 
@@ -37,21 +45,12 @@ players an **endgame** message.
 
 ### `id`
 
-Tells the player what their unique ID is.
+Tells the player what their unique assigned ID is.
 
 Message parameters:
 
 -   opcode: `id` (`string`)
--   id: Their unique ID (`int`)
-
-### `order`
-
-Tells the player the order in which they and the other players get a turn.
-
-Message parameters:
-
--   opcode: `order`
--   order: The order (list of `int`)
+-   id: Their unique assigned ID (`int`)
 
 ### `endturn`
 
