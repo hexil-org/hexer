@@ -2,7 +2,6 @@
 actix = "0.13.0"
 actix-web = "4.1.0"
 actix-web-actors = "4.1.0"
-uuid = { version = "1.1.2", features = ["v4", "serde"] }
 
 [package]
 name = "hexer-back"
