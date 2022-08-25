@@ -2,6 +2,7 @@ use std::time::{Duration, Instant};
 
 use actix::prelude::*;
 use actix_web_actors::ws;
+use serde::{Deserialize, Serialize};
 
 use crate::game;
 
@@ -19,6 +20,12 @@ pub struct Player {
 #[derive(Message)]
 #[rtype("()")]
 pub struct PlayerId(pub u8);
+
+#[derive(Serialize)]
+#[serde(tag = "t", rename_all = "camelCase")]
+enum SocketMessage {
+    Id { id: u8 },
+}
 
 impl Player {
     pub fn new(game: Addr<game::Game>) -> Player {
@@ -91,6 +98,8 @@ impl Handler<PlayerId> for Player {
     type Result = ();
 
     fn handle(&mut self, msg: PlayerId, context: &mut Self::Context) {
-        context.text(format!("{}", msg.0))
+        let socket_message = SocketMessage::Id { id: msg.0 };
+
+        context.text(serde_json::to_string(&socket_message).unwrap())
     }
 }
