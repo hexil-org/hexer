@@ -13,7 +13,6 @@ pub struct Player {
     /// respond to our ping every CLIENT_TIMEOUT seconds,
     /// otherwise we will assume the connection is down.
     pub last_sign_of_life: Instant,
-    /// The address of the corresponding GameManager actor.
     pub game: Addr<game::Game>,
 }
 
@@ -47,9 +46,7 @@ impl Actor for Player {
     fn started(&mut self, context: &mut Self::Context) {
         self.setup_last_sign_of_life_check(context);
 
-        // Register the client manager to the global game. In the
-        // future, we'll likely have a "Lobby" process that manages game
-        // managers and creates and assigns clients to game managers.
+        // Register the player to the global game.
         self.game.do_send(game::Connect {
             player: context.address(),
         });
