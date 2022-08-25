@@ -29,9 +29,7 @@ impl Player {
     fn setup_last_sign_of_life_check(&self, context: &mut ws::WebsocketContext<Self>) {
         context.run_interval(SIGN_OF_LIFE_INTERVAL, |actor, context| {
             if Instant::now().duration_since(actor.last_sign_of_life) >= CLIENT_TIMEOUT {
-                // The client has not given a sign of life. Notify the game that the client has
-                // disconnected and end the connection.
-                actor.game.do_send(game::Disconnect);
+                // The client has not given a sign of life.
                 context.stop();
             } else {
                 context.ping(b"");
