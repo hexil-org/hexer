@@ -30,7 +30,6 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(game.clone()))
             .route("/", web::get().to(open_socket))
     })
-    .workers(2)
     .bind(addr)?
     .run()
     .await
