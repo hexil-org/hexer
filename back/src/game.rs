@@ -27,12 +27,10 @@ impl Actor for Game {
     type Context = Context<Self>;
 }
 
+#[derive(Message)]
+#[rtype("()")]
 pub struct Connect {
     pub player: Addr<Player>,
-}
-
-impl Message for Connect {
-    type Result = ();
 }
 
 impl Handler<Connect> for Game {
@@ -54,11 +52,9 @@ impl Handler<Connect> for Game {
     }
 }
 
+#[derive(Message)]
+#[rtype("()")]
 pub struct Disconnect;
-
-impl Message for Disconnect {
-    type Result = ();
-}
 
 impl Handler<Disconnect> for Game {
     type Result = ();
