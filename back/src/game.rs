@@ -7,6 +7,16 @@ pub struct Game {
     players: Vec<Addr<Player>>,
 }
 
+#[derive(Message)]
+#[rtype("()")]
+pub struct Connect {
+    pub player: Addr<Player>,
+}
+
+#[derive(Message)]
+#[rtype("()")]
+pub struct Disconnect;
+
 impl Game {
     pub fn new() -> Game {
         Game {
@@ -27,12 +37,6 @@ impl Actor for Game {
     type Context = Context<Self>;
 }
 
-#[derive(Message)]
-#[rtype("()")]
-pub struct Connect {
-    pub player: Addr<Player>,
-}
-
 impl Handler<Connect> for Game {
     type Result = ();
 
@@ -51,10 +55,6 @@ impl Handler<Connect> for Game {
         }
     }
 }
-
-#[derive(Message)]
-#[rtype("()")]
-pub struct Disconnect;
 
 impl Handler<Disconnect> for Game {
     type Result = ();
