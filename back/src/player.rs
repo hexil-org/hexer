@@ -2,7 +2,7 @@ use std::time::{Duration, Instant};
 
 use actix::prelude::*;
 use actix_web_actors::ws;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use crate::game;
 
@@ -10,6 +10,7 @@ const SIGN_OF_LIFE_INTERVAL: Duration = Duration::from_secs(5);
 const CLIENT_TIMEOUT: Duration = Duration::from_secs(10);
 
 pub struct Player {
+    pub id: Option<u8>,
     /// The timestamp of the last sign of life. The client must
     /// respond to our ping every CLIENT_TIMEOUT seconds,
     /// otherwise we will assume the connection is down.
@@ -21,10 +22,21 @@ pub struct Player {
 #[rtype("()")]
 pub struct PlayerId(pub u8);
 
+#[derive(Message)]
+#[rtype("()")]
+pub struct TurnEnded;
+
 #[derive(Serialize)]
 #[serde(tag = "t", rename_all = "camelCase")]
-enum SocketMessage {
+enum OutSocketMessage {
     Id { id: u8 },
+    TurnEnded,
+}
+
+#[derive(Deserialize)]
+#[serde(tag = "t", rename_all = "camelCase")]
+enum InSocketMessage {
+    EndTurn,
 }
 
 impl Actor for Player {
@@ -48,6 +60,7 @@ impl Actor for Player {
 impl Player {
     pub fn new(game: Addr<game::Game>) -> Player {
         Player {
+            id: None,
             last_sign_of_life: Instant::now(),
             game,
         }
@@ -75,7 +88,16 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
     ) {
         match message {
             Ok(ws::Message::Text(text)) => {
-                dbg!(text);
+                let socket_message: InSocketMessage = serde_json::from_str(&text).unwrap();
+
+                match socket_message {
+                    InSocketMessage::EndTurn => {
+                        // TODO: Don't unwrap
+                        self.game.do_send(game::EndTurn {
+                            player_id: self.id.unwrap(),
+                        });
+                    }
+                }
             }
             Ok(ws::Message::Ping(message)) => {
                 self.last_sign_of_life = Instant::now();
@@ -98,8 +120,20 @@ impl Handler<PlayerId> for Player {
     type Result = ();
 
     fn handle(&mut self, msg: PlayerId, context: &mut Self::Context) {
-        let socket_message = SocketMessage::Id { id: msg.0 };
+        self.id = Some(msg.0);
 
-        context.text(serde_json::to_string(&socket_message).unwrap())
+        let socket_message = OutSocketMessage::Id {
+            id: self.id.unwrap(),
+        };
+
+        context.text(serde_json::to_string(&socket_message).unwrap());
+    }
+}
+
+impl Handler<TurnEnded> for Player {
+    type Result = ();
+
+    fn handle(&mut self, _: TurnEnded, context: &mut Self::Context) {
+        context.text(serde_json::to_string(&OutSocketMessage::TurnEnded).unwrap());
     }
 }

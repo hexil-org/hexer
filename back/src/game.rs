@@ -5,6 +5,7 @@ use crate::player::{self, Player};
 
 pub struct Game {
     players: Vec<Addr<Player>>,
+    current_player: u8,
 }
 
 #[derive(Message)]
@@ -17,6 +18,12 @@ pub struct Connect {
 #[rtype("()")]
 pub struct Disconnect;
 
+#[derive(Message)]
+#[rtype("()")]
+pub struct EndTurn {
+    pub player_id: u8,
+}
+
 impl Actor for Game {
     type Context = Context<Self>;
 }
@@ -25,6 +32,7 @@ impl Game {
     pub fn new() -> Game {
         Game {
             players: Vec::new(),
+            current_player: 0,
         }
     }
 
@@ -53,6 +61,20 @@ impl Handler<Connect> for Game {
 
         if self.players.len() == PLAYER_THRESHOLD {
             self.start_game();
+        }
+    }
+}
+
+impl Handler<EndTurn> for Game {
+    type Result = ();
+
+    fn handle(&mut self, msg: EndTurn, _: &mut Context<Self>) -> Self::Result {
+        assert_eq!(msg.player_id, self.current_player);
+
+        self.current_player = (self.current_player + 1) % 3;
+
+        for player in &self.players {
+            player.do_send(player::TurnEnded);
         }
     }
 }
