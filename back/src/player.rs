@@ -27,6 +27,24 @@ enum SocketMessage {
     Id { id: u8 },
 }
 
+impl Actor for Player {
+    type Context = ws::WebsocketContext<Self>;
+
+    fn started(&mut self, context: &mut Self::Context) {
+        self.setup_last_sign_of_life_check(context);
+
+        // Register the player to the global game.
+        self.game.do_send(game::Connect {
+            player: context.address(),
+        });
+    }
+
+    fn stopping(&mut self, _: &mut Self::Context) -> Running {
+        self.game.do_send(game::Disconnect);
+        Running::Stop
+    }
+}
+
 impl Player {
     pub fn new(game: Addr<game::Game>) -> Player {
         Player {
@@ -46,24 +64,6 @@ impl Player {
                 context.ping(b"");
             }
         });
-    }
-}
-
-impl Actor for Player {
-    type Context = ws::WebsocketContext<Self>;
-
-    fn started(&mut self, context: &mut Self::Context) {
-        self.setup_last_sign_of_life_check(context);
-
-        // Register the player to the global game.
-        self.game.do_send(game::Connect {
-            player: context.address(),
-        });
-    }
-
-    fn stopping(&mut self, _: &mut Self::Context) -> Running {
-        self.game.do_send(game::Disconnect);
-        Running::Stop
     }
 }
 

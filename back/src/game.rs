@@ -17,6 +17,10 @@ pub struct Connect {
 #[rtype("()")]
 pub struct Disconnect;
 
+impl Actor for Game {
+    type Context = Context<Self>;
+}
+
 impl Game {
     pub fn new() -> Game {
         Game {
@@ -33,10 +37,6 @@ impl Game {
             player.do_send(player::PlayerId(idx as u8));
         }
     }
-}
-
-impl Actor for Game {
-    type Context = Context<Self>;
 }
 
 impl Handler<Connect> for Game {
