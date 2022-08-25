@@ -1,44 +1,37 @@
-#![deny(clippy::all)]
+use actix::{Actor, Addr};
+use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer};
+use actix_web_actors::ws;
+use std::env;
 
-use std::{env, io::Error};
+mod game;
+mod player;
 
-use futures::{SinkExt, StreamExt};
-use tokio::io::{AsyncRead, AsyncWrite};
-use tokio::net::{TcpListener, TcpStream};
-use tokio_tungstenite::tungstenite::Message as WebSocketMessage;
-use tokio_tungstenite::WebSocketStream;
+async fn open_socket(
+    req: HttpRequest,
+    stream: web::Payload,
+    game: web::Data<Addr<game::Game>>,
+) -> Result<HttpResponse, Error> {
+    // Create a player actor that will handle this socket connection
+    let player = player::Player::new(game.get_ref().clone());
 
-#[tokio::main]
-async fn main() -> Result<(), Error> {
+    ws::start(player, &req, stream)
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
     let addr = env::args()
         .nth(1)
         .unwrap_or_else(|| "127.0.0.1:9450".to_string());
 
-    let listener = TcpListener::bind(&addr).await?;
+    let game = game::Game::new().start();
 
-    eprintln!("Server started. Listening on {}.", addr);
-
-    loop {
-        let (stream, _) = listener.accept().await?;
-        tokio::spawn(handle_tcp(stream));
-    }
-}
-
-async fn handle_tcp(stream: TcpStream) {
-    let ws_stream = tokio_tungstenite::accept_async(stream).await.unwrap();
-
-    handle_websocket(ws_stream).await;
-}
-
-async fn handle_websocket(stream: WebSocketStream<impl AsyncRead + AsyncWrite + Unpin>) {
-    let (mut write, mut read) = stream.split();
-
-    while let Some(Ok(msg)) = read.next().await {
-        if let WebSocketMessage::Text(text) = msg {
-            if text == "ping" {
-                let pong = WebSocketMessage::Text("pong".to_owned());
-                write.send(pong).await.unwrap();
-            }
-        }
-    }
+    HttpServer::new(move || {
+        App::new()
+            .app_data(web::Data::new(game.clone()))
+            .route("/", web::get().to(open_socket))
+    })
+    .workers(2)
+    .bind(addr)?
+    .run()
+    .await
 }
