@@ -47,12 +47,12 @@ enum InSocketMessage {
 impl Actor for Player {
     type Context = ws::WebsocketContext<Self>;
 
-    fn started(&mut self, context: &mut Self::Context) {
-        self.setup_last_sign_of_life_check(context);
+    fn started(&mut self, ctx: &mut Self::Context) {
+        self.setup_last_sign_of_life_check(ctx);
 
         // Register the player to the global game.
         self.game.do_send(game::Connect {
-            player: context.address(),
+            player: ctx.address(),
         });
     }
 
@@ -73,8 +73,8 @@ impl Player {
 
     /// Periodically sends a ping to the client, and checks
     /// when the last sign of life from the client was received.
-    fn setup_last_sign_of_life_check(&self, context: &mut ws::WebsocketContext<Self>) {
-        context.run_interval(SIGN_OF_LIFE_INTERVAL, |actor, context| {
+    fn setup_last_sign_of_life_check(&self, ctx: &mut ws::WebsocketContext<Self>) {
+        ctx.run_interval(SIGN_OF_LIFE_INTERVAL, |actor, context| {
             if Instant::now().duration_since(actor.last_sign_of_life) >= CLIENT_TIMEOUT {
                 // The client has not given a sign of life.
                 context.stop();
@@ -86,16 +86,12 @@ impl Player {
 }
 
 impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
-    fn handle(
-        &mut self,
-        message: Result<ws::Message, ws::ProtocolError>,
-        context: &mut Self::Context,
-    ) {
-        match message {
+    fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, ctx: &mut Self::Context) {
+        match msg {
             Ok(ws::Message::Text(text)) => {
-                let socket_message: InSocketMessage = serde_json::from_str(&text).unwrap();
+                let socket_msg: InSocketMessage = serde_json::from_str(&text).unwrap();
 
-                match socket_message {
+                match socket_msg {
                     InSocketMessage::EndTurn => {
                         // TODO: Don't unwrap
                         self.game.do_send(game::EndTurn {
@@ -104,19 +100,19 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
                     }
                 }
             }
-            Ok(ws::Message::Ping(message)) => {
+            Ok(ws::Message::Ping(bytes)) => {
                 self.last_sign_of_life = Instant::now();
-                context.pong(&message);
+                ctx.pong(&bytes);
             }
             Ok(ws::Message::Pong(_)) => {
                 self.last_sign_of_life = Instant::now();
             }
             Ok(ws::Message::Close(reason)) => {
-                context.close(reason);
-                context.stop();
+                ctx.close(reason);
+                ctx.stop();
             }
             Ok(_) => (),
-            Err(_) => context.stop(),
+            Err(_) => ctx.stop(),
         }
     }
 }
@@ -124,29 +120,29 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
 impl Handler<PlayerId> for Player {
     type Result = ();
 
-    fn handle(&mut self, msg: PlayerId, context: &mut Self::Context) {
+    fn handle(&mut self, msg: PlayerId, ctx: &mut Self::Context) {
         self.id = Some(msg.0);
 
-        let socket_message = OutSocketMessage::Id {
+        let socket_msg = OutSocketMessage::Id {
             id: self.id.unwrap(),
         };
 
-        context.text(serde_json::to_string(&socket_message).unwrap());
+        ctx.text(serde_json::to_string(&socket_msg).unwrap());
     }
 }
 
 impl Handler<TurnEnded> for Player {
     type Result = ();
 
-    fn handle(&mut self, _: TurnEnded, context: &mut Self::Context) {
-        context.text(serde_json::to_string(&OutSocketMessage::TurnEnded).unwrap());
+    fn handle(&mut self, _: TurnEnded, ctx: &mut Self::Context) {
+        ctx.text(serde_json::to_string(&OutSocketMessage::TurnEnded).unwrap());
     }
 }
 
 impl Handler<GameEnded> for Player {
     type Result = ();
 
-    fn handle(&mut self, _: GameEnded, context: &mut Self::Context) {
-        context.text(serde_json::to_string(&OutSocketMessage::GameEnded).unwrap());
+    fn handle(&mut self, _: GameEnded, ctx: &mut Self::Context) {
+        ctx.text(serde_json::to_string(&OutSocketMessage::GameEnded).unwrap());
     }
 }

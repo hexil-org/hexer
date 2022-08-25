@@ -49,7 +49,7 @@ impl Game {
 impl Handler<Connect> for Game {
     type Result = ();
 
-    fn handle(&mut self, message: Connect, _: &mut Context<Self>) -> Self::Result {
+    fn handle(&mut self, msg: Connect, _: &mut Context<Self>) -> Self::Result {
         const PLAYER_THRESHOLD: usize = 3;
 
         if self.players.len() >= PLAYER_THRESHOLD {
@@ -57,7 +57,7 @@ impl Handler<Connect> for Game {
             return;
         }
 
-        self.players.push(message.player);
+        self.players.push(msg.player);
 
         if self.players.len() == PLAYER_THRESHOLD {
             self.start_game();
