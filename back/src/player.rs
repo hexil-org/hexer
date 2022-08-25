@@ -5,17 +5,14 @@ use actix_web_actors::ws;
 
 use crate::game;
 
-/// How often heartbeat pings are sent.
-const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(5);
-
-/// How long before lack of client response causes a timeout.
+const SIGN_OF_LIFE_INTERVAL: Duration = Duration::from_secs(5);
 const CLIENT_TIMEOUT: Duration = Duration::from_secs(10);
 
 pub struct Player {
-    /// The timestamp of the last heartbeat. The client must
+    /// The timestamp of the last sign of life. The client must
     /// respond to our ping every CLIENT_TIMEOUT seconds,
     /// otherwise we will assume the connection is down.
-    pub last_heartbeat: Instant,
+    pub last_sign_of_life: Instant,
     /// The address of the corresponding GameManager actor.
     pub game: Addr<game::Game>,
 }
@@ -23,17 +20,17 @@ pub struct Player {
 impl Player {
     pub fn new(game: Addr<game::Game>) -> Player {
         Player {
-            last_heartbeat: Instant::now(),
+            last_sign_of_life: Instant::now(),
             game,
         }
     }
 
     /// Periodically sends a ping to the client, and checks
-    /// when the last heartbeat from the client was received.
-    fn heartbeat(&self, context: &mut ws::WebsocketContext<Self>) {
-        context.run_interval(HEARTBEAT_INTERVAL, |actor, context| {
-            if Instant::now().duration_since(actor.last_heartbeat) >= CLIENT_TIMEOUT {
-                // The client has not sent back a heartbeat. Notify the game manager that the client has
+    /// when the last sign of life from the client was received.
+    fn setup_last_sign_of_life_check(&self, context: &mut ws::WebsocketContext<Self>) {
+        context.run_interval(SIGN_OF_LIFE_INTERVAL, |actor, context| {
+            if Instant::now().duration_since(actor.last_sign_of_life) >= CLIENT_TIMEOUT {
+                // The client has not given a sign of life. Notify the game that the client has
                 // disconnected and end the connection.
                 actor.game.do_send(game::Disconnect);
                 context.stop();
@@ -48,7 +45,7 @@ impl Actor for Player {
     type Context = ws::WebsocketContext<Self>;
 
     fn started(&mut self, context: &mut Self::Context) {
-        self.heartbeat(context);
+        self.setup_last_sign_of_life_check(context);
 
         // Register the client manager to the global game. In the
         // future, we'll likely have a "Lobby" process that manages game
@@ -75,11 +72,11 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
                 dbg!(text);
             }
             Ok(ws::Message::Ping(message)) => {
-                self.last_heartbeat = Instant::now();
+                self.last_sign_of_life = Instant::now();
                 context.pong(&message);
             }
             Ok(ws::Message::Pong(_)) => {
-                self.last_heartbeat = Instant::now();
+                self.last_sign_of_life = Instant::now();
             }
             Ok(ws::Message::Close(reason)) => {
                 context.close(reason);
