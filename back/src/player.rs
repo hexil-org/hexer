@@ -2,7 +2,7 @@ use std::time::{Duration, Instant};
 
 use actix::prelude::*;
 use actix_web_actors::ws;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 use crate::game;
 
