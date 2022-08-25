@@ -1,4 +1,5 @@
 use actix::{Actor, Addr, Context, Handler, Message};
+use rand::seq::SliceRandom;
 
 use crate::player::{self, Player};
 
@@ -29,6 +30,8 @@ impl Game {
 
     /// Starts the game
     pub fn start_game(&mut self) {
+        self.players.shuffle(&mut rand::thread_rng());
+
         for (idx, player) in self.players.iter().enumerate() {
             player.do_send(player::PlayerId(idx as u8));
         }
