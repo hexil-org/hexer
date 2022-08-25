@@ -1,6 +1,6 @@
 use actix::{Actor, Addr, Context, Handler, Message};
 
-use crate::player::Player;
+use crate::player::{self, Player};
 
 pub struct Game {
     has_started: bool,
@@ -29,7 +29,9 @@ impl Game {
     pub fn start_game(&mut self) {
         self.has_started = true;
 
-        // TODO: Send the players their ID
+        for (idx, player) in self.players.iter().enumerate() {
+            player.do_send(player::PlayerId(idx as u8));
+        }
     }
 }
 

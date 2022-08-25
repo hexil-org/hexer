@@ -16,6 +16,10 @@ pub struct Player {
     pub game: Addr<game::Game>,
 }
 
+#[derive(Message)]
+#[rtype("()")]
+pub struct PlayerId(pub u8);
+
 impl Player {
     pub fn new(game: Addr<game::Game>) -> Player {
         Player {
@@ -80,5 +84,13 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
             Ok(_) => (),
             Err(_) => context.stop(),
         }
+    }
+}
+
+impl Handler<PlayerId> for Player {
+    type Result = ();
+
+    fn handle(&mut self, msg: PlayerId, context: &mut Self::Context) {
+        context.text(format!("{}", msg.0))
     }
 }
