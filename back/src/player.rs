@@ -86,32 +86,38 @@ impl Player {
 }
 
 impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
-    fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, ctx: &mut Self::Context) {
-        match msg {
-            Ok(ws::Message::Text(text)) => {
-                let socket_msg: InSocketMessage = serde_json::from_str(&text).unwrap();
+    fn handle(
+        &mut self,
+        maybe_msg: Result<ws::Message, ws::ProtocolError>,
+        ctx: &mut Self::Context,
+    ) {
+        match maybe_msg {
+            Ok(msg) => {
+                self.last_sign_of_life = Instant::now();
 
-                match socket_msg {
-                    InSocketMessage::EndTurn => {
-                        // TODO: Don't unwrap
-                        self.game.do_send(game::EndTurn {
-                            player_id: self.id.unwrap(),
-                        });
+                match msg {
+                    ws::Message::Text(text) => {
+                        let socket_msg: InSocketMessage = serde_json::from_str(&text).unwrap();
+
+                        match socket_msg {
+                            InSocketMessage::EndTurn => {
+                                // TODO: Don't unwrap
+                                self.game.do_send(game::EndTurn {
+                                    player_id: self.id.unwrap(),
+                                });
+                            }
+                        }
                     }
+                    ws::Message::Ping(bytes) => {
+                        ctx.pong(&bytes);
+                    }
+                    ws::Message::Close(reason) => {
+                        ctx.close(reason);
+                        ctx.stop();
+                    }
+                    _ => (),
                 }
             }
-            Ok(ws::Message::Ping(bytes)) => {
-                self.last_sign_of_life = Instant::now();
-                ctx.pong(&bytes);
-            }
-            Ok(ws::Message::Pong(_)) => {
-                self.last_sign_of_life = Instant::now();
-            }
-            Ok(ws::Message::Close(reason)) => {
-                ctx.close(reason);
-                ctx.stop();
-            }
-            Ok(_) => (),
             Err(_) => ctx.stop(),
         }
     }
