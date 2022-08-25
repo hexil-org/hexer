@@ -3,7 +3,6 @@ use actix::{Actor, Addr, Context, Handler, Message};
 use crate::player::{self, Player};
 
 pub struct Game {
-    has_started: bool,
     players: Vec<Addr<Player>>,
 }
 
@@ -24,15 +23,12 @@ impl Actor for Game {
 impl Game {
     pub fn new() -> Game {
         Game {
-            has_started: false,
             players: Vec::new(),
         }
     }
 
     /// Starts the game
     pub fn start_game(&mut self) {
-        self.has_started = true;
-
         for (idx, player) in self.players.iter().enumerate() {
             player.do_send(player::PlayerId(idx as u8));
         }
