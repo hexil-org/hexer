@@ -1,4 +1,4 @@
-use actix::{Actor, Addr, Context, Handler, Message};
+use actix::{Actor, ActorContext, Addr, Context, Handler, Message, Supervised};
 use rand::seq::SliceRandom;
 
 use crate::player::{self, Player};
@@ -26,6 +26,12 @@ pub struct EndTurn {
 
 impl Actor for Game {
     type Context = Context<Self>;
+}
+
+impl Supervised for Game {
+    fn restarting(&mut self, ctx: &mut Self::Context) {
+        *self = Game::new();
+    }
 }
 
 impl Game {
@@ -82,9 +88,11 @@ impl Handler<EndTurn> for Game {
 impl Handler<Disconnect> for Game {
     type Result = ();
 
-    fn handle(&mut self, _msg: Disconnect, _: &mut Context<Self>) {
+    fn handle(&mut self, _msg: Disconnect, ctx: &mut Context<Self>) {
         for player in &self.players {
             player.do_send(player::GameEnded);
         }
+
+        ctx.stop();
     }
 }
