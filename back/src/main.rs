@@ -1,4 +1,4 @@
-use actix::{Actor, Addr};
+use actix::{Actor, Addr, Supervisor};
 use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use actix_web_actors::ws;
 use std::env;
@@ -23,7 +23,7 @@ async fn main() -> std::io::Result<()> {
         .nth(1)
         .unwrap_or_else(|| "127.0.0.1:9450".to_string());
 
-    let game = game::Game::new().start();
+    let game = Supervisor::start(|_| game::Game::new());
 
     HttpServer::new(move || {
         App::new()
