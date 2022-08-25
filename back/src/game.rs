@@ -83,7 +83,8 @@ impl Handler<Disconnect> for Game {
     type Result = ();
 
     fn handle(&mut self, _msg: Disconnect, _: &mut Context<Self>) {
-        // TODO: Stop game on disconnect
-        unimplemented!()
+        for player in &self.players {
+            player.do_send(player::GameEnded);
+        }
     }
 }

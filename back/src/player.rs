@@ -26,11 +26,16 @@ pub struct PlayerId(pub u8);
 #[rtype("()")]
 pub struct TurnEnded;
 
+#[derive(Message)]
+#[rtype("()")]
+pub struct GameEnded;
+
 #[derive(Serialize)]
 #[serde(tag = "t", rename_all = "camelCase")]
 enum OutSocketMessage {
     Id { id: u8 },
     TurnEnded,
+    GameEnded,
 }
 
 #[derive(Deserialize)]
@@ -135,5 +140,13 @@ impl Handler<TurnEnded> for Player {
 
     fn handle(&mut self, _: TurnEnded, context: &mut Self::Context) {
         context.text(serde_json::to_string(&OutSocketMessage::TurnEnded).unwrap());
+    }
+}
+
+impl Handler<GameEnded> for Player {
+    type Result = ();
+
+    fn handle(&mut self, _: GameEnded, context: &mut Self::Context) {
+        context.text(serde_json::to_string(&OutSocketMessage::GameEnded).unwrap());
     }
 }
