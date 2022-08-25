@@ -29,7 +29,8 @@ async function main() {
     console.log("Connected!");
 
     while (true) {
-        const msg = await once(socket, "message");
+        const response = <MessageEvent>await once(socket, "message");
+        const msg = JSON.parse(response.data);
         console.log("Received ", msg);
     }
 }
