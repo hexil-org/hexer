@@ -29,7 +29,7 @@ impl Actor for Game {
 }
 
 impl Supervised for Game {
-    fn restarting(&mut self, ctx: &mut Self::Context) {
+    fn restarting(&mut self, _ctx: &mut Self::Context) {
         *self = Game::new();
     }
 }
