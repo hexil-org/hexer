@@ -1,12 +1,13 @@
 use actix::{Addr, Supervisor};
-use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer};
+use actix_web::{get, web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use actix_web_actors::ws;
 use std::env;
 
 mod game;
 mod player;
 
-async fn open_socket(
+#[get("/")]
+async fn index(
     req: HttpRequest,
     stream: web::Payload,
     game: web::Data<Addr<game::Game>>,
@@ -28,7 +29,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(game.clone()))
-            .route("/", web::get().to(open_socket))
+            .service(index)
     })
     .bind(addr)?
     .run()
