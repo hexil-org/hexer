@@ -105,7 +105,7 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
                 ws::Message::Text(text) => {
                     match serde_json::from_str::<InSocketMessage>(&text) {
                         Err(err) => {
-                            log::error!("Ignoring malformed message '{:?}': {}", text, err);
+                            log::warn!("Ignoring malformed message '{:?}': {}", text, err);
                             return;
                         }
                         Ok(socket_msg) => self.handle_socket_message(socket_msg),
