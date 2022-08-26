@@ -81,6 +81,17 @@ impl Player {
             ctx.ping(b"");
         });
     }
+
+    fn handle_socket_message(&self, msg: InSocketMessage) {
+        match msg {
+            InSocketMessage::EndTurn => {
+                // TODO: Don't unwrap
+                self.game.do_send(game::EndTurn {
+                    player_id: self.id.unwrap(),
+                });
+            }
+        }
+    }
 }
 
 impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
@@ -90,33 +101,28 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
         ctx: &mut Self::Context,
     ) {
         match maybe_msg {
-            Ok(msg) => {
-                match msg {
-                    ws::Message::Text(text) => {
-                        let socket_msg: InSocketMessage = serde_json::from_str(&text).unwrap();
-
-                        match socket_msg {
-                            InSocketMessage::EndTurn => {
-                                // TODO: Don't unwrap
-                                self.game.do_send(game::EndTurn {
-                                    player_id: self.id.unwrap(),
-                                });
-                            }
+            Ok(msg) => match msg {
+                ws::Message::Text(text) => {
+                    match serde_json::from_str::<InSocketMessage>(&text) {
+                        Err(err) => {
+                            log::error!("Ignoring malformed message '{:?}': {}", text, err);
+                            return;
                         }
-                    }
-                    ws::Message::Ping(bytes) => {
-                        ctx.pong(&bytes);
-                    }
-                    ws::Message::Pong(_bytes) => {
-                        self.last_pong = Instant::now();
-                    }
-                    ws::Message::Close(reason) => {
-                        ctx.close(reason);
-                        ctx.stop();
-                    }
-                    _ => (),
+                        Ok(socket_msg) => self.handle_socket_message(socket_msg),
+                    };
                 }
-            }
+                ws::Message::Ping(bytes) => {
+                    ctx.pong(&bytes);
+                }
+                ws::Message::Pong(_bytes) => {
+                    self.last_pong = Instant::now();
+                }
+                ws::Message::Close(reason) => {
+                    ctx.close(reason);
+                    ctx.stop();
+                }
+                _ => (),
+            },
             Err(_) => ctx.stop(),
         }
     }

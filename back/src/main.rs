@@ -20,6 +20,8 @@ async fn index(
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::init();
+
     let addr = env::args()
         .nth(1)
         .unwrap_or_else(|| "127.0.0.1:9450".to_string());
