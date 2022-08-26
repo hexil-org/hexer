@@ -1,4 +1,4 @@
-use actix::{Actor, Addr, Supervisor};
+use actix::{Addr, Supervisor};
 use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use actix_web_actors::ws;
 use std::env;
