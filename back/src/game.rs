@@ -42,8 +42,8 @@ impl Game {
         }
     }
 
-    /// Starts the game
-    pub fn start_game(&mut self) {
+    /// Begin the game
+    pub fn begin(&mut self) {
         self.players.shuffle(&mut rand::thread_rng());
 
         for (idx, player) in self.players.iter().enumerate() {
@@ -66,7 +66,7 @@ impl Handler<Connect> for Game {
         self.players.push(msg.player);
 
         if self.players.len() == PLAYER_THRESHOLD {
-            self.start_game();
+            self.begin();
         }
     }
 }
