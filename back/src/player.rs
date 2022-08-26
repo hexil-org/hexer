@@ -6,15 +6,15 @@ use serde::{Deserialize, Serialize};
 
 use crate::game;
 
-const SIGN_OF_LIFE_INTERVAL: Duration = Duration::from_secs(5);
-const CLIENT_TIMEOUT: Duration = Duration::from_secs(10);
+const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(5);
+const CLIENT_PONG_TIMEOUT: Duration = Duration::from_secs(10);
 
 pub struct Player {
     pub id: Option<u8>,
-    /// The timestamp of the last sign of life. The client must
-    /// respond to our ping every CLIENT_TIMEOUT seconds,
-    /// otherwise we will assume the connection is down.
-    pub last_sign_of_life: Instant,
+    /// The timestamp of the last received pong. If more than
+    /// `CLIENT_PONG_TIMEOUT` elapsed since then, then the connection is assumed
+    /// to be down.
+    pub last_pong: Instant,
     pub game: Addr<game::Game>,
 }
 
@@ -48,7 +48,7 @@ impl Actor for Player {
     type Context = ws::WebsocketContext<Self>;
 
     fn started(&mut self, ctx: &mut Self::Context) {
-        self.setup_last_sign_of_life_check(ctx);
+        self.setup_heartbeat(ctx);
 
         // Register the player to the global game.
         self.game.do_send(game::Connect {
@@ -66,21 +66,19 @@ impl Player {
     pub fn new(game: Addr<game::Game>) -> Player {
         Player {
             id: None,
-            last_sign_of_life: Instant::now(),
+            last_pong: Instant::now(),
             game,
         }
     }
 
-    /// Periodically sends a ping to the client, and checks
-    /// when the last sign of life from the client was received.
-    fn setup_last_sign_of_life_check(&self, ctx: &mut ws::WebsocketContext<Self>) {
-        ctx.run_interval(SIGN_OF_LIFE_INTERVAL, |actor, context| {
-            if Instant::now().duration_since(actor.last_sign_of_life) >= CLIENT_TIMEOUT {
-                // The client has not given a sign of life.
-                context.stop();
-            } else {
-                context.ping(b"");
+    fn setup_heartbeat(&self, ctx: &mut ws::WebsocketContext<Self>) {
+        ctx.run_interval(HEARTBEAT_INTERVAL, |actor, ctx| {
+            if actor.last_pong.elapsed() >= CLIENT_PONG_TIMEOUT {
+                ctx.stop();
+                return;
             }
+
+            ctx.ping(b"");
         });
     }
 }
@@ -93,8 +91,6 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
     ) {
         match maybe_msg {
             Ok(msg) => {
-                self.last_sign_of_life = Instant::now();
-
                 match msg {
                     ws::Message::Text(text) => {
                         let socket_msg: InSocketMessage = serde_json::from_str(&text).unwrap();
@@ -110,6 +106,9 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for Player {
                     }
                     ws::Message::Ping(bytes) => {
                         ctx.pong(&bytes);
+                    }
+                    ws::Message::Pong(_bytes) => {
+                        self.last_pong = Instant::now();
                     }
                     ws::Message::Close(reason) => {
                         ctx.close(reason);
