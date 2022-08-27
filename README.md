@@ -1,6 +1,6 @@
 # Hexer
 
-[![Deploy badge](https://github.com/hexil-org/hexer/actions/workflows/deploy.yaml/badge.svg)](https://github.com/hexil-org/hexer/actions/workflows/check.yaml)
+[![Deploy badge](https://github.com/hexil-org/hexer/actions/workflows/deploy.yaml/badge.svg)](https://github.com/hexil-org/hexer/actions/workflows/deploy.yaml)
 
 ## Getting started for developers
 

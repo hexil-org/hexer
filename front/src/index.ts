@@ -28,11 +28,11 @@ async function main() {
     await once(socket, "open");
     console.log("Connected!");
 
-    socket.send("ping");
-    console.log("Sent ping");
-
-    const response = await once(socket, "message");
-    console.log("Received ", response);
+    while (true) {
+        const response = <MessageEvent>await once(socket, "message");
+        const msg = JSON.parse(response.data);
+        console.log("Received ", msg);
+    }
 }
 
 window.onload = main;
