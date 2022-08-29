@@ -110,29 +110,47 @@ A player is notated with one of `0` (the bank), `1`, `2`, `3` or `4`.
 
 The standard order is the numerical order.
 
+## Coordinate
+
+Read these first:
+
+-   Axial coordinates: https://www.redblobgames.com/grids/hexagons/#coordinates-axial
+-   Hexagon grid relationships: https://www.redblobgames.com/grids/parts/#hexagon-coordinates
+
+A tile-coordinate is notated as an axial coordinate. It is an ordered tuple of
+the q and r value.
+
+A vertex-coordinate is notated as an ordered tuple with the axial q and r value
+of the tile it touches, and an `S` or `N` to indicate if it is the south corner
+or the north corner of that tile.
+
+An edge-coordinate is notated as an ordered tuple with the axial q and r value
+of the tile it borders, and an `NE` or `NW` or `W` to indicate if it is the
+north-east, north-west or west edge of that tile.
+
 ## Action notation
 
 To form an action, take one row in the table and concatenate from left to right.
 Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
-| Description               | Subject (who) | Verb | Direct Object (what)       | Goal                     | Indirect object |
-| :------------------------ | :------------ | :--- | :------------------------- | :----------------------- | :-------------- |
-| Roll                      | -             | `R`  | Value (Roll-value)         |                          |                 |
-| Move Robber               | -             | `M`  | -                          | Destination (Coordinate) |                 |
-| Discard                   | (Player)      | `D`  | Resources (Formula)        |                          |                 |
-| Steal                     | -             | `S`  | Resource (Hidable Formula) |                          | From (Player)   |
-| Buy a village             | -             | `B`  | Village (`v`)              |                          |                 |
-| Buy a city                | -             | `B`  | City (`c`)                 |                          |                 |
-| Buy a road                | -             | `B`  | Road (`r`)                 |                          |                 |
-| Buy a development card    | -             | `B`  | Development Card (`d`)     |                          |                 |
-| Place a village           | -             | `P`  | Village (`v`)              | Location (Coordinate)    |                 |
-| Place a city              | -             | `P`  | City (`c`)                 | Location (Coordinate)    |                 |
-| Place a road              | -             | `P`  | Road (`r`)                 | Location (Coordinate)    |                 |
-| Use a knight card         | -             | `U`  | Knight Card (`k`)          |                          |                 |
-| Use a year of plenty card | -             | `U`  | Year of plenty card (`p`)  | Resources (Formula)      | -               |
-| Use a monopoly card       | -             | `U`  | Monopoly Card (`m`)        | Resource (Formula)       | -               |
-| Use a road card           | -             | `U`  | Road Card (`o`)            |                          |                 |
-| Trade                     | -             | `T`  | (Formula)                  | For (Formula)            | With (Player)   |
+| Description               | Subject (who) | Verb | Direct Object (what)       | Goal                         | Indirect object |
+| :------------------------ | :------------ | :--- | :------------------------- | :--------------------------- | :-------------- |
+| Roll                      | -             | `R`  | Value (Roll-value)         |                              |                 |
+| Move Robber               | -             | `M`  | -                          | Destination (TileCoordinate) |                 |
+| Discard                   | (Player)      | `D`  | Resources (Formula)        |                              |                 |
+| Steal                     | -             | `S`  | Resource (Hidable Formula) |                              | From (Player)   |
+| Buy a village             | -             | `B`  | Village (`v`)              |                              |                 |
+| Buy a city                | -             | `B`  | City (`c`)                 |                              |                 |
+| Buy a road                | -             | `B`  | Road (`r`)                 |                              |                 |
+| Buy a development card    | -             | `B`  | Development Card (`d`)     |                              |                 |
+| Place a village           | -             | `P`  | Village (`v`)              | Location (VertexCoordinate)  |                 |
+| Place a city              | -             | `P`  | City (`c`)                 | Location (VertexCoordinate)  |                 |
+| Place a road              | -             | `P`  | Road (`r`)                 | Location (EdgeCoordinate)    |                 |
+| Use a knight card         | -             | `U`  | Knight Card (`k`)          |                              |                 |
+| Use a year of plenty card | -             | `U`  | Year of plenty card (`p`)  | Resources (Formula)          | -               |
+| Use a monopoly card       | -             | `U`  | Monopoly Card (`m`)        | Resource (Formula)           | -               |
+| Use a road card           | -             | `U`  | Road Card (`o`)            |                              |                 |
+| Trade                     | -             | `T`  | (Formula)                  | For (Formula)                | With (Player)   |
 
 ### Examples
 
