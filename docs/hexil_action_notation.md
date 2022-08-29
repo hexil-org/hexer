@@ -23,8 +23,8 @@ this order is 'BeeGLOW' (think of a bee glowing).
 
 A formula describes a combination of resources. It is similar to a chemical
 molecular formula. It consists of pairs with a resource code and a number. The
-number '1' _should_ be omitted. The resources _should_ appear in the
-standard order (meaning alphabetical).
+number '1' SHOULD be omitted. The resources SHOULD appear in the standard order
+(meaning alphabetical).
 
 A formula MUST start with an open parenthesis and end with a closing
 parenthesis.
