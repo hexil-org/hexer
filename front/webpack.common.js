@@ -8,12 +8,12 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: "ts-loader",
-                include: [path.resolve(__dirname, "src/")],
+                include: path.resolve(__dirname, "src/"),
             },
             {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader"],
-                include: [path.resolve(__dirname, "src/")],
+                include: path.resolve(__dirname, "src/"),
             },
         ],
     },
