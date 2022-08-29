@@ -4,8 +4,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
 interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
-The Hexil Action Notation describes the notation for game actions. This notation
-is defined in terms of smaller notations.
+The Hexil Action Notation describes the notation for game actions. This action
+notation (at the bottom of this document) is defined in terms of smaller
+notations.
 
 Each notation has a standard order.
 
@@ -101,7 +102,7 @@ The roll-value notation is the unordered tuple notation of two die-values.
 
     `(3+6)`
 
-## Action
+## Action notation
 
 Format: Left to right, separated with spaces. Skip dashes (meaning inferred) or
 blanks (meaning not relevant).
