@@ -1,6 +1,6 @@
 # HAN: Hexil Action Notation
 
-## Resources
+## Resource
 
 | Resource | Code |
 | -------- | ---- |
@@ -10,7 +10,7 @@
 | Ore      | 'O'  |
 | Wool     | 'W'  |
 
-## Formula's
+## Formula
 
 A formula is a combination of resources, written like a chemical formula. _For
 programs formatting: The letters must appear in aphabetical order (Mnemonic:
