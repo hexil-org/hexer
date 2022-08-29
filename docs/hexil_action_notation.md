@@ -1,20 +1,47 @@
 # HAN: Hexil Action Notation
 
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
 ## Resource
 
 | Resource | Code |
 | -------- | ---- |
-| Brick    | 'B'  |
-| Grain    | 'G'  |
-| Lumber   | 'L'  |
-| Ore      | 'O'  |
-| Wool     | 'W'  |
+| Brick    | `B`  |
+| Grain    | `G`  |
+| Lumber   | `L`  |
+| Ore      | `O`  |
+| Wool     | `W`  |
+
+### Standard Order
+
+The standard ordering of resource codes is the alphabetical ordering. A mnemonic
+for this ordering is 'BeeGLOW' (think of a bee glowing).
 
 ## Formula
 
-A formula is a combination of resources, written like a chemical formula. _For
-programs formatting: The letters must appear in aphabetical order (Mnemonic:
-BeeGLOW (think of a bee glowing)._ _For programs parsing: Accept any order._
+A formula describes a combination of resources. It is similar to a chemical
+molecular formula. It consists of pairs with a resource code and a number. The
+number '1' _should_ be omitted. The resources _should_ appear in the
+standard order (meaning alphabetical).
+
+A formula MUST start with an open parenthesis and end with a closing
+parenthesis.
+
+### Examples
+
+-   2 wool
+
+    `(W2)`
+
+-   1 lumber
+
+    `(L)`
+
+-   3 wool, 4 brick and 1 grain
+
+    `(B4GW3)`
 
 ## Action
 
