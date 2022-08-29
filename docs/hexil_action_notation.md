@@ -26,26 +26,26 @@ BeeGLOW (think of a bee glowing)._ _For programs parsing: Accept any order._
 Format: Left to right, separated with spaces. Skip dashes (meaning inferred) or
 blanks (meaning not relevant).
 
-| Description               | Subject (who)         | Verb | Direct Object (what)         | Goal                        | Indirect object       |
-| :------------------------ | :-------------------- | :--- | :--------------------------- | :-------------------------- | :-------------------- |
-| Roll                      | -                     | 'R'  | Numberpair (Number + Number) |                             |                       |
-| Move Robber               | -                     | 'M'  | -                            | Destination (HexCoordinate) |                       |
-| Discard                   | Player (PlayerNumber) | 'D'  | Resources (ResourceFormula)  |                             |                       |
-| Steal                     | -                     | 'S'  | Resource (ResourceFormula?)  |                             | Player (PlayerNumber) |
-| Buy a village             | -                     | 'B'  | Village ('v')                |                             |                       |
-| Buy a city                | -                     | 'B'  | City ('c')                   |                             |                       |
-| Buy a road                | -                     | 'B'  | Road ('r')                   |                             |                       |
-| Buy a development card    | -                     | 'B'  | Development Card ('d')       |                             |                       |
-| Place a village           | -                     | 'P'  | Village ('v')                | Location (HexCoordinate)    |                       |
-| Place a city              | -                     | 'P'  | City ('c')                   | Location (HexCoordinate)    |                       |
-| Place a road              | -                     | 'P'  | Road ('r')                   | Location (HexCoordinate)    |                       |
-| Use a knight card         | -                     | 'U'  | Knight Card ('k')            |                             |                       |
-| Use a year of plenty card | -                     | 'U'  | Year of plenty card ('p')    | Resources (ResourceFormula) | -                     |
-| Use a monopoly card       | -                     | 'U'  | Monopoly Card ('m')          | Resource (ResourceFormula)  | -                     |
-| Use a road card           | -                     | 'U'  | Road Card ('o')              |                             |                       |
-| Trade                     | -                     | 'T'  | (ResourceFormula)            | For (ResourceFormula)       | With (PlayerNumber)   |
+| Description               | Subject (who)         | Verb | Direct Object (what)         | Goal                     | Indirect object       |
+| :------------------------ | :-------------------- | :--- | :--------------------------- | :----------------------- | :-------------------- |
+| Roll                      | -                     | 'R'  | Numberpair (Number + Number) |                          |                       |
+| Move Robber               | -                     | 'M'  | -                            | Destination (Coordinate) |                       |
+| Discard                   | Player (PlayerNumber) | 'D'  | Resources (Formula)          |                          |                       |
+| Steal                     | -                     | 'S'  | Resource (Formula?)          |                          | Player (PlayerNumber) |
+| Buy a village             | -                     | 'B'  | Village ('v')                |                          |                       |
+| Buy a city                | -                     | 'B'  | City ('c')                   |                          |                       |
+| Buy a road                | -                     | 'B'  | Road ('r')                   |                          |                       |
+| Buy a development card    | -                     | 'B'  | Development Card ('d')       |                          |                       |
+| Place a village           | -                     | 'P'  | Village ('v')                | Location (Coordinate)    |                       |
+| Place a city              | -                     | 'P'  | City ('c')                   | Location (Coordinate)    |                       |
+| Place a road              | -                     | 'P'  | Road ('r')                   | Location (Coordinate)    |                       |
+| Use a knight card         | -                     | 'U'  | Knight Card ('k')            |                          |                       |
+| Use a year of plenty card | -                     | 'U'  | Year of plenty card ('p')    | Resources (Formula)      | -                     |
+| Use a monopoly card       | -                     | 'U'  | Monopoly Card ('m')          | Resource (Formula)       | -                     |
+| Use a road card           | -                     | 'U'  | Road Card ('o')              |                          |                       |
+| Trade                     | -                     | 'T'  | (Formula)                    | For (Formula)            | With (PlayerNumber)   |
 
-A hexcoordinate is an ordered tuple with the three hexcoordinate values.
+A coordinate is an ordered tuple of two or three values.
 
 Round brackets must be used around and may only be used around:
 
