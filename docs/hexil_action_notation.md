@@ -112,8 +112,8 @@ The standard order is the numerical order.
 
 ## Action notation
 
-Format: Left to right, separated with spaces. Skip dashes (meaning inferred) or
-blanks (meaning not relevant).
+To form an action, take one row in the table and concatenate from left to right.
+Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
 | Description               | Subject (who) | Verb | Direct Object (what)       | Goal                     | Indirect object |
 | :------------------------ | :------------ | :--- | :------------------------- | :----------------------- | :-------------- |
