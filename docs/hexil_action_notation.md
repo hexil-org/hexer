@@ -26,24 +26,24 @@ BeeGLOW (think of a bee glowing)._ _For programs parsing: Accept any order._
 Format: Left to right, separated with spaces. Skip dashes (meaning inferred) or
 blanks (meaning not relevant).
 
-| Description               | Subject (who)         | Verb | Direct Object (what)         | Goal                     | Indirect object       |
-| :------------------------ | :-------------------- | :--- | :--------------------------- | :----------------------- | :-------------------- |
-| Roll                      | -                     | 'R'  | Numberpair (Number + Number) |                          |                       |
-| Move Robber               | -                     | 'M'  | -                            | Destination (Coordinate) |                       |
-| Discard                   | Player (PlayerNumber) | 'D'  | Resources (Formula)          |                          |                       |
-| Steal                     | -                     | 'S'  | Resource (Formula?)          |                          | Player (PlayerNumber) |
-| Buy a village             | -                     | 'B'  | Village ('v')                |                          |                       |
-| Buy a city                | -                     | 'B'  | City ('c')                   |                          |                       |
-| Buy a road                | -                     | 'B'  | Road ('r')                   |                          |                       |
-| Buy a development card    | -                     | 'B'  | Development Card ('d')       |                          |                       |
-| Place a village           | -                     | 'P'  | Village ('v')                | Location (Coordinate)    |                       |
-| Place a city              | -                     | 'P'  | City ('c')                   | Location (Coordinate)    |                       |
-| Place a road              | -                     | 'P'  | Road ('r')                   | Location (Coordinate)    |                       |
-| Use a knight card         | -                     | 'U'  | Knight Card ('k')            |                          |                       |
-| Use a year of plenty card | -                     | 'U'  | Year of plenty card ('p')    | Resources (Formula)      | -                     |
-| Use a monopoly card       | -                     | 'U'  | Monopoly Card ('m')          | Resource (Formula)       | -                     |
-| Use a road card           | -                     | 'U'  | Road Card ('o')              |                          |                       |
-| Trade                     | -                     | 'T'  | (Formula)                    | For (Formula)            | With (PlayerNumber)   |
+| Description               | Subject (who)   | Verb | Direct Object (what)         | Goal                     | Indirect object |
+| :------------------------ | :-------------- | :--- | :--------------------------- | :----------------------- | :-------------- |
+| Roll                      | -               | 'R'  | Numberpair (Number + Number) |                          |                 |
+| Move Robber               | -               | 'M'  | -                            | Destination (Coordinate) |                 |
+| Discard                   | Player (Player) | 'D'  | Resources (Formula)          |                          |                 |
+| Steal                     | -               | 'S'  | Resource (Formula?)          |                          | Player (Player) |
+| Buy a village             | -               | 'B'  | Village ('v')                |                          |                 |
+| Buy a city                | -               | 'B'  | City ('c')                   |                          |                 |
+| Buy a road                | -               | 'B'  | Road ('r')                   |                          |                 |
+| Buy a development card    | -               | 'B'  | Development Card ('d')       |                          |                 |
+| Place a village           | -               | 'P'  | Village ('v')                | Location (Coordinate)    |                 |
+| Place a city              | -               | 'P'  | City ('c')                   | Location (Coordinate)    |                 |
+| Place a road              | -               | 'P'  | Road ('r')                   | Location (Coordinate)    |                 |
+| Use a knight card         | -               | 'U'  | Knight Card ('k')            |                          |                 |
+| Use a year of plenty card | -               | 'U'  | Year of plenty card ('p')    | Resources (Formula)      | -               |
+| Use a monopoly card       | -               | 'U'  | Monopoly Card ('m')          | Resource (Formula)       | -               |
+| Use a road card           | -               | 'U'  | Road Card ('o')              |                          |                 |
+| Trade                     | -               | 'T'  | (Formula)                    | For (Formula)            | With (Player)   |
 
 A coordinate is an ordered tuple of two or three values.
 
