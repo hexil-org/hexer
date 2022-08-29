@@ -80,7 +80,7 @@ parenthesis.
 
 A die-value is notated with one of `1`, `2`, `3`, `4`, `5`, `6`.
 
-### Standard Order
+### Standard order
 
 The standard order of die-values is the numerical order.
 
@@ -101,6 +101,14 @@ The roll-value notation is the unordered tuple notation of two die-values.
 -   3 and 6
 
     `(3+6)`
+
+## Player notation
+
+A player is notated with one of `0` (the bank), `1`, `2`, `3` or `4`.
+
+### Standard order
+
+The standard order is the numerical order.
 
 ## Action notation
 
