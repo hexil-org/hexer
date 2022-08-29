@@ -162,6 +162,10 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
     `S(O)2`
 
+-   Player 2 discards 2 ore
+
+    `2D(O2)`
+
 -   Steal an unknown resource from player 1
 
     `S?1`
