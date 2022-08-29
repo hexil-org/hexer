@@ -16,8 +16,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 ### Standard Order
 
-The standard ordering of resource codes is the alphabetical ordering. A mnemonic
-for this ordering is 'BeeGLOW' (think of a bee glowing).
+The standard order of resource codes is the alphabetical order. A mnemonic for
+this order is 'BeeGLOW' (think of a bee glowing).
 
 ## Formula
 
