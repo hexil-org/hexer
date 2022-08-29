@@ -135,6 +135,10 @@ blanks (meaning not relevant).
 
     `S(O)2`
 
+-   Steal an unknown resource from player 1
+
+    `S?1`
+
 -   Place a village on (0, -1, S)
 
     `Pv(0,-1,S)`
