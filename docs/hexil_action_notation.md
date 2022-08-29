@@ -64,9 +64,9 @@ Round brackets must be used around and may only be used around:
 
     `S(O)2`
 
--   Place a village on (-2, 0, 2)
+-   Place a village on (0, -1, S)
 
-    `Pv(-2,0,2)`
+    `Pv(0,-1,S)`
 
 -   Trade 1 lumber and 2 ore for 3 brick with player 1
 
