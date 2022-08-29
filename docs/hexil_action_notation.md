@@ -177,3 +177,38 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 -   Trade 1 lumber and 2 ore for 3 brick with player 1
 
     `T(LO2)(B3)1`
+
+## Syntax
+
+```
+action := roll | move_robber | discard | steal | buy | place_village |
+          place_city | place_road | use_card | trade
+
+roll        := "R" roll_value
+move_robber := "M" tile_coordinate
+discard     := player "D" formula
+
+steal           := "S" ("?" | formula) player
+buy             := "B" ("v" | "c" | "r" | "d")
+place_village   := "P" "v" vertex_coordinate
+place_city      := "P" "c" vertex_coordinate
+place_road      := "P" "r" edge_coordinate
+use_card        := "U" ("k" | ("p" formula) | ("m" formula) | "o")
+trade           := "T" formula formula player
+
+roll_value := "(" die_value "+" die_value ")"
+die_value  := '1'..'6'
+
+tile_coordinate     := "(" integer "," integer ")"
+vertex_coordinate   := "(" integer "," integer "," ("S"|"N") ")"
+edge_coordinate     := "(" integer "," integer "," ("NE" | "NW" | "W") ")"
+
+formula := "(" (resource integer?)+ ")"
+
+resource := "B" | "G" | "L" | "O" | "W"
+
+player := '0'..'6'
+
+integer := "-"? ~ digit+
+digit   := '0'..'9'
+```
