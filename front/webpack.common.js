@@ -8,7 +8,12 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: "ts-loader",
-                exclude: /node_modules/,
+                include: path.resolve(__dirname, "src/"),
+            },
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"],
+                include: path.resolve(__dirname, "src/"),
             },
         ],
     },
@@ -16,7 +21,6 @@ module.exports = {
     resolve: {
         extensions: [".ts", ".js", ".json"],
     },
-
     output: {
         filename: "main.js",
         path: path.resolve(__dirname, "dist"),
