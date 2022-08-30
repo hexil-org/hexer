@@ -4,19 +4,18 @@
     "description": "The frontend of hexer",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "webpack --config webpack.prod.js",
-        "start": "webpack serve --open --config webpack.dev.js"
+        "build": "mix --production",
+        "start": "mix && mix watch --hot"
     },
     "keywords": [],
     "license": "AGPL-3.0-or-later",
     "devDependencies": {
-        "css-loader": "^6.7.1",
-        "html-webpack-plugin": "^5.5.0",
-        "style-loader": "^3.3.1",
+        "filename-regex": "^2.0.1",
+        "laravel-mix": "^6.0.49",
+        "mix-html-builder": "^0.9.0",
+        "sass": "^1.54.6",
+        "sass-loader": "^13.0.2",
         "ts-loader": "^9.3.1",
-        "typescript": "^4.7.4",
-        "webpack": "*",
-        "webpack-cli": "^4.10.0",
-        "webpack-dev-server": "^4.10.0"
+        "typescript": "^4.8.2"
     }
 }

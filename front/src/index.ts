@@ -11,7 +11,7 @@ function once(target: EventTarget, name: string) {
 }
 
 function getBackendUrl() {
-    if (location.host === "localhost:9451") {
+    if (process.env.NODE_ENV !== "production") {
         return "ws://localhost:9450";
     }
 
