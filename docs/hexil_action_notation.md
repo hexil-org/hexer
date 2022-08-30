@@ -209,6 +209,6 @@ resource := "B" | "G" | "L" | "O" | "W"
 
 player := '0'..'6'
 
-integer := "-"? ~ digit+
+integer := "-"? digit+
 digit   := '0'..'9'
 ```
