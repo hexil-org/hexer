@@ -33,9 +33,9 @@ parenthesis.
 
 The elements of an unordered tuple MUST be separated with the `,` symbol.
 
-## Hidable notation
+## Maybe notation
 
-Given some notation N, the hidable notation of N is a notation for either N or
+Given some notation N, the maybe notation of N is a notation for either N or
 the cover value, notated with `?`.
 
 ## Resource notation
@@ -133,24 +133,24 @@ north-east, north-west or west edge of that tile.
 To form an action, take one row in the table and concatenate from left to right.
 Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
-| Description               | Subject (who) | Verb | Direct Object (what)       | Goal                         | Indirect object |
-| :------------------------ | :------------ | :--- | :------------------------- | :--------------------------- | :-------------- |
-| Roll                      | -             | `R`  | Value (Roll-value)         |                              |                 |
-| Move Robber               | -             | `M`  | -                          | Destination (TileCoordinate) |                 |
-| Discard                   | (Player)      | `D`  | Resources (Formula)        |                              |                 |
-| Steal                     | -             | `S`  | Resource (Hidable Formula) |                              | From (Player)   |
-| Buy a village             | -             | `B`  | Village (`v`)              |                              |                 |
-| Buy a city                | -             | `B`  | City (`c`)                 |                              |                 |
-| Buy a road                | -             | `B`  | Road (`r`)                 |                              |                 |
-| Buy a development card    | -             | `B`  | Development Card (`d`)     |                              |                 |
-| Place a village           | -             | `P`  | Village (`v`)              | Location (VertexCoordinate)  |                 |
-| Place a city              | -             | `P`  | City (`c`)                 | Location (VertexCoordinate)  |                 |
-| Place a road              | -             | `P`  | Road (`r`)                 | Location (EdgeCoordinate)    |                 |
-| Use a knight card         | -             | `U`  | Knight Card (`k`)          |                              |                 |
-| Use a year of plenty card | -             | `U`  | Year of plenty card (`p`)  | Resources (Formula)          | -               |
-| Use a monopoly card       | -             | `U`  | Monopoly Card (`m`)        | Resource (Formula)           | -               |
-| Use a road card           | -             | `U`  | Road Card (`o`)            |                              |                 |
-| Trade                     | -             | `T`  | (Formula)                  | For (Formula)                | With (Player)   |
+| Description               | Subject (who) | Verb | Direct Object (what)      | Goal                         | Indirect object |
+| :------------------------ | :------------ | :--- | :------------------------ | :--------------------------- | :-------------- |
+| Roll                      | -             | `R`  | Value (Maybe Roll-value)  |                              |                 |
+| Move Robber               | -             | `M`  | -                         | Destination (TileCoordinate) |                 |
+| Discard                   | (Player)      | `D`  | Resources (Formula)       |                              |                 |
+| Steal                     | -             | `S`  | Resource (Maybe Formula)  |                              | From (Player)   |
+| Buy a village             | -             | `B`  | Village (`v`)             |                              |                 |
+| Buy a city                | -             | `B`  | City (`c`)                |                              |                 |
+| Buy a road                | -             | `B`  | Road (`r`)                |                              |                 |
+| Buy a development card    | -             | `B`  | Development Card (`d`)    |                              |                 |
+| Place a village           | -             | `P`  | Village (`v`)             | Location (VertexCoordinate)  |                 |
+| Place a city              | -             | `P`  | City (`c`)                | Location (VertexCoordinate)  |                 |
+| Place a road              | -             | `P`  | Road (`r`)                | Location (EdgeCoordinate)    |                 |
+| Use a knight card         | -             | `U`  | Knight Card (`k`)         |                              |                 |
+| Use a year of plenty card | -             | `U`  | Year of plenty card (`p`) | Resources (Formula)          | -               |
+| Use a monopoly card       | -             | `U`  | Monopoly Card (`m`)       | Resource (Formula)           | -               |
+| Use a road card           | -             | `U`  | Road Card (`o`)           |                              |                 |
+| Trade                     | -             | `T`  | (Formula)                 | For (Formula)                | With (Player)   |
 
 ### Examples
 
@@ -184,7 +184,7 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 action := roll | move_robber | discard | steal | buy | place_village |
           place_city | place_road | use_card | trade
 
-roll        := "R" roll_value
+roll        := "R" ("?" | roll_value)
 move_robber := "M" tile_coordinate
 discard     := player "D" formula
 
