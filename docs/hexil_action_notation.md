@@ -151,6 +151,7 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 | Use a monopoly card       | -             | `U`  | Monopoly Card (`m`)       | Resource (Formula)           | -               |
 | Use a road card           | -             | `U`  | Road Card (`o`)           |                              |                 |
 | Trade                     | -             | `T`  | (Formula)                 | For (Formula)                | With (Player)   |
+| End turn                  | -             | `E`  | -                         |                              |                 |
 
 ### Examples
 
@@ -182,7 +183,7 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
 ```
 action := roll | move_robber | discard | steal | buy | place_village |
-          place_city | place_road | use_card | trade
+          place_city | place_road | use_card | trade | end_turn
 
 roll        := "R" ("?" | roll_value)
 move_robber := "M" tile_coordinate
@@ -195,6 +196,7 @@ place_city      := "P" "c" vertex_coordinate
 place_road      := "P" "r" edge_coordinate
 use_card        := "U" ("k" | ("p" formula) | ("m" formula) | "o")
 trade           := "T" formula formula player
+end_turn        := "E"
 
 roll_value := "(" die_value "+" die_value ")"
 die_value  := '1'..'6'
