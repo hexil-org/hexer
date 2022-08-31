@@ -1,5 +1,3 @@
-import styles from "./board.module.scss";
+import { board } from "./board";
 
-export function board(element: HTMLElement, config: object) {
-    // TODO: Define interface for config
-}
+export default board;
