@@ -182,34 +182,34 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 ## Syntax
 
 ```
-action := roll | move_robber | discard | steal | buy | place_village |
-          place_city | place_road | use_card | trade | end_turn
+action = { roll | move_robber | discard | steal | buy | place_village |
+          place_city | place_road | use_card | trade | end_turn }
 
-roll        := "R" ("?" | roll_value)
-move_robber := "M" tile_coordinate
-discard     := player "D" formula
+roll        = { "R" ~ ("?" | roll_value) }
+move_robber = { "M" ~ tile_coordinate }
+discard     = { player ~ "D" ~ formula }
 
-steal           := "S" ("?" | formula) player
-buy             := "B" ("v" | "c" | "r" | "d")
-place_village   := "P" "v" vertex_coordinate
-place_city      := "P" "c" vertex_coordinate
-place_road      := "P" "r" edge_coordinate
-use_card        := "U" ("k" | ("p" formula) | ("m" formula) | "o")
-trade           := "T" formula formula player
-end_turn        := "E"
+steal           = { "S" ~ ("?" | formula) ~ player }
+buy             = { "B" ~ ("v" | "c" | "r" | "d") }
+place_village   = { "P" ~ "v" ~ vertex_coordinate }
+place_city      = { "P" ~ "c" ~ vertex_coordinate }
+place_road      = { "P" ~ "r" ~ edge_coordinate }
+use_card        = { "U" ~ ("k" | ("p" ~ formula) | ("m" ~ formula) | "o") }
+trade           = { "T" ~ formula ~ formula ~ player }
+end_turn        = { "E" }
 
-roll_value := "(" die_value "+" die_value ")"
-die_value  := '1'..'6'
+roll_value = { "(" ~ die_value ~ "+" ~ die_value ~ ")" }
+die_value  = { '1'..'6' }
 
-tile_coordinate     := "(" integer "," integer ")"
-vertex_coordinate   := "(" integer "," integer "," ("S"|"N") ")"
-edge_coordinate     := "(" integer "," integer "," ("NE" | "NW" | "W") ")"
+tile_coordinate     = { "(" ~ integer ~ "," ~ integer ~  ")" }
+vertex_coordinate   = { "(" ~ integer ~ "," ~ integer ~  "," ~ ("S"|"N") ~ ")" }
+edge_coordinate     = { "(" ~ integer ~ "," ~ integer ~  "," ~ ("NE" | "NW" | "W") ~ ")" }
 
-formula := "(" (resource integer?)+ ")"
+formula = { "(" ~ (resource ~ integer?)+ ~ ")" }
 
-resource := "B" | "G" | "L" | "O" | "W"
+resource = { "B" | "G" | "L" | "O" | "W" }
 
-player := '0'..'6'
+player = { '0'..'6' }
 
-integer := '0' | ('1'..'9' '0'..'9'*)
+integer = { "0" | ('1'..'9' ~ '0'..'9'*) }
 ```
