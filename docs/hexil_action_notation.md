@@ -171,9 +171,9 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
     `S?1`
 
--   Place a village on (0, -1, S)
+-   Place a village on (3,3, S)
 
-    `Pv(0,-1,S)`
+    `Pv(3,3,S)`
 
 -   Trade 1 lumber and 2 ore for 3 brick with player 1
 
@@ -211,6 +211,5 @@ resource := "B" | "G" | "L" | "O" | "W"
 
 player := '0'..'6'
 
-integer := "-"? digit+
-digit   := '0'..'9'
+integer := '0' | ('1'..'9' '0'..'9'*)
 ```
