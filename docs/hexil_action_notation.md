@@ -5,8 +5,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 The Hexil Action Notation describes the notation for game actions. This action
-notation (at the bottom of this document) is defined in terms of smaller
-notations.
+notation is defined in terms of smaller notations.
 
 ## Maybe notation
 
@@ -33,6 +32,7 @@ this order is 'BeeGLOW' (think of a bee glowing).
 A formula describes a combination of resources. It is similar to a chemical
 molecular formula. It consists of pairs with a resource code and a number. The
 number '1' SHOULD be omitted. The resources SHOULD appear in the standard order.
+Each resource SHOULD only appear once.
 
 A formula MUST start with an open parenthesis and end with a closing
 parenthesis.
@@ -86,10 +86,6 @@ The die values SHOULD appear in the standard order, from left to right.
 
 A player is notated with either `0` (the bank), `1`, `2`, `3` or `4`.
 
-### Standard order
-
-The standard order is the numerical order.
-
 ## Coordinate
 
 Read these first:
@@ -101,8 +97,8 @@ A coordinate MUST start with an open parenthesis and end with a closing
 parenthesis.
 
 Tile-coordinates are notated as axial coordinates. But the first value is
-converted to a letter in spreadsheet-style (1=a, 2=b, 3=c, ..., 26=z, 27=aa).
-So the axial coordinate (1,4) is written as a4.
+notated in spreadsheet-style (1=a, 2=b, 3=c, ..., 26=z, 27=aa). So the axial
+coordinate (1,4) is written as a4.
 
 ```
        d2  e2  f2
@@ -195,6 +191,8 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
 ## Grammar
 
+A Parsing Expression Grammar for [pest](https://pest.rs):
+
 ```rust
 action = { roll | move_robber | discard | steal | buy | place_village |
           place_city | place_road | use_card | trade | end_turn }
@@ -203,23 +201,23 @@ roll        = { "R" ~ ("?" | roll_value) }
 move_robber = { "M" ~ tile_coordinate }
 discard     = { player ~ "D" ~ formula }
 
-steal           = { "S" ~ ("?" | formula) ~ player }
-buy             = { "B" ~ buyable }
-place_village   = { "P" ~ "v" ~ vertex_coordinate }
-place_city      = { "P" ~ "c" ~ vertex_coordinate }
-place_road      = { "P" ~ "r" ~ edge_coordinate }
-use_card        = { "U" ~ ("k" | ("y" ~ formula) | ("m" ~ formula) | "o") }
-trade           = { "T" ~ formula ~ formula ~ player }
-end_turn        = { "E" }
+steal         = { "S" ~ ("?" | formula) ~ player }
+buy           = { "B" ~ buyable }
+place_village = { "P" ~ "v" ~ vertex_coordinate }
+place_city    = { "P" ~ "c" ~ vertex_coordinate }
+place_road    = { "P" ~ "r" ~ edge_coordinate }
+use_card      = { "U" ~ ("k" | ("y" ~ formula) | ("m" ~ formula) | "o") }
+trade         = { "T" ~ formula ~ formula ~ player }
+end_turn      = { "E" }
 
 buyable = { "v" | "c" | "r" | "d" }
 
 roll_value = { "(" ~ die_value ~ "+" ~ die_value ~ ")" }
 die_value  = { '1'..'6' }
 
-tile_coordinate     = { "(" ~ q_component ~ r_component ~  ")" }
-vertex_coordinate   = { "(" ~ q_component ~ r_component ~ corner ~ ")" }
-edge_coordinate     = { "(" ~ q_component ~ r_component ~ border ~ ")" }
+tile_coordinate   = { "(" ~ q_component ~ r_component ~  ")" }
+vertex_coordinate = { "(" ~ q_component ~ r_component ~ corner ~ ")" }
+edge_coordinate   = { "(" ~ q_component ~ r_component ~ border ~ ")" }
 
 q_component = @{ 'a'..'z'+ }
 r_component = @{ '1'..'9' ~ '0'..'9'* }
@@ -227,11 +225,10 @@ r_component = @{ '1'..'9' ~ '0'..'9'* }
 corner = { "n" | "s" }
 border = { "ne" | "nw" | "w" }
 
-formula = { "(" ~ (resource ~ integer?)+ ~ ")" }
+formula = { "(" ~ (resource ~ amount?)+ ~ ")" }
+amount = { ('1'..'9' ~ '0'..'9'*) }
 
 resource = { "B" | "G" | "L" | "O" | "W" }
 
 player = { '0'..'6' }
-
-integer = { "0" | ('1'..'9' ~ '0'..'9'*) }
 ```
