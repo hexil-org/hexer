@@ -8,8 +8,6 @@ The Hexil Action Notation describes the notation for game actions. This action
 notation (at the bottom of this document) is defined in terms of smaller
 notations.
 
-Each notation has a standard order.
-
 ## Maybe notation
 
 Given some notation N, the maybe notation of N is a notation for either N or
