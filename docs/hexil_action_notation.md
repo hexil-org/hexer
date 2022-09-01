@@ -193,9 +193,9 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
     `T(LO2)(B3)1`
 
-## Syntax
+## Grammar
 
-```
+```rust
 action = { roll | move_robber | discard | steal | buy | place_village |
           place_city | place_road | use_card | trade | end_turn }
 
