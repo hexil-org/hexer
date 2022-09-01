@@ -163,7 +163,7 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 | Place a city              | -             | `P`  | City (`c`)                | Location (VertexCoordinate)  |                 |
 | Place a road              | -             | `P`  | Road (`r`)                | Location (EdgeCoordinate)    |                 |
 | Use a knight card         | -             | `U`  | Knight Card (`k`)         |                              |                 |
-| Use a year of plenty card | -             | `U`  | Year of plenty card (`p`) | Resources (Formula)          | -               |
+| Use a year of plenty card | -             | `U`  | Year of plenty card (`y`) | Resources (Formula)          | -               |
 | Use a monopoly card       | -             | `U`  | Monopoly Card (`m`)       | Resource (Formula)           | -               |
 | Use a road card           | -             | `U`  | Road Card (`o`)           |                              |                 |
 | Trade                     | -             | `T`  | (Formula)                 | For (Formula)                | With (Player)   |
@@ -210,7 +210,7 @@ buy             = { "B" ~ buyable }
 place_village   = { "P" ~ "v" ~ vertex_coordinate }
 place_city      = { "P" ~ "c" ~ vertex_coordinate }
 place_road      = { "P" ~ "r" ~ edge_coordinate }
-use_card        = { "U" ~ ("k" | ("p" ~ formula) | ("m" ~ formula) | "o") }
+use_card        = { "U" ~ ("k" | ("y" ~ formula) | ("m" ~ formula) | "o") }
 trade           = { "T" ~ formula ~ formula ~ player }
 end_turn        = { "E" }
 
