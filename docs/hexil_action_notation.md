@@ -86,7 +86,7 @@ The die values SHOULD appear in the standard order, from left to right.
 
 A player is notated with either `0` (the bank), `1`, `2`, `3` or `4`.
 
-## Coordinate
+## Coordinate notation
 
 Read these first:
 
@@ -188,6 +188,18 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 -   Trade 1 lumber and 2 ore for 3 brick with player 1
 
     `T(LO2)(B3)1`
+
+-   Use a monopoly card to obtain all wool
+
+    `Um(W)`
+
+-   Use a knight
+
+    `Uk`
+
+-   End the turn
+
+    `E`
 
 ## Grammar
 
