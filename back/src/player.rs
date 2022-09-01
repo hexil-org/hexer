@@ -27,7 +27,7 @@ pub struct PlayerId(pub u8);
 
 #[derive(Message)]
 #[rtype("()")]
-pub struct ActionPerformed {
+pub struct ActionDone {
     pub action: Action,
 }
 
@@ -151,10 +151,10 @@ impl Handler<PlayerId> for Player {
     }
 }
 
-impl Handler<ActionPerformed> for Player {
+impl Handler<ActionDone> for Player {
     type Result = ();
 
-    fn handle(&mut self, msg: ActionPerformed, ctx: &mut Self::Context) {
+    fn handle(&mut self, msg: ActionDone, ctx: &mut Self::Context) {
         ctx.text(
             serde_json::to_string(&OutSocketMessage::Done {
                 han: msg.action.to_string(),

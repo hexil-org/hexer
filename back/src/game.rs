@@ -87,7 +87,7 @@ impl Handler<DoAction> for Game {
                 self.current_player = (self.current_player + 1) % 3;
 
                 for player in &self.players {
-                    player.do_send(player::ActionPerformed { action: msg.action });
+                    player.do_send(player::ActionDone { action: msg.action });
                 }
             }
         }
