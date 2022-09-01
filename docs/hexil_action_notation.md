@@ -10,29 +10,6 @@ notations.
 
 Each notation has a standard order.
 
-## Unordered tuple notation
-
-Given some notation N, the unordered tuple of N is a notation for a set of two
-or more values in the denotation of N.
-
-An unordered tuple MUST start with an open parenthesis and end with a closing
-parenthesis.
-
-The elements of an unordered tuple MUST be separated with the `+` symbol.
-
-The elements of an unordered tuple SHOULD appear in the standard order, from
-left to right.
-
-## Ordered tuple notation
-
-Given some notation N, the ordered tuple of N is a notation for a sequence of
-two or more values in the denotation of N.
-
-An ordered tuple MUST start with an open parenthesis and end with a closing
-parenthesis.
-
-The elements of an unordered tuple MUST be separated with the `,` symbol.
-
 ## Maybe notation
 
 Given some notation N, the maybe notation of N is a notation for either N or
@@ -88,6 +65,13 @@ The standard order of die-values is the numerical order.
 
 The roll-value notation is the unordered tuple notation of two die-values.
 
+A roll-value notation MUST start with an open parenthesis and end with a closing
+parenthesis.
+
+The die values MUST be separated with the `+` symbol.
+
+The die values SHOULD appear in the standard order, from left to right.
+
 ### Examples
 
 -   3 and 3
@@ -104,7 +88,7 @@ The roll-value notation is the unordered tuple notation of two die-values.
 
 ## Player notation
 
-A player is notated with one of `0` (the bank), `1`, `2`, `3` or `4`.
+A player is notated with either `0` (the bank), `1`, `2`, `3` or `4`.
 
 ### Standard order
 
@@ -117,16 +101,20 @@ Read these first:
 -   Axial coordinates: https://www.redblobgames.com/grids/hexagons/#coordinates-axial
 -   Hexagon grid relationships: https://www.redblobgames.com/grids/parts/#hexagon-coordinates
 
-A tile-coordinate is notated as an axial coordinate. It is an ordered tuple of
-the q and r value.
+A coordinate MUST start with an open parenthesis and end with a closing
+parenthesis.
 
-A vertex-coordinate is notated as an ordered tuple with the axial q and r value
-of the tile it touches, and an `S` or `N` to indicate if it is the south corner
+Tile-coordinates are notated as axial coordinates. But the first value is
+converted to a letter in spreadsheet-style (1=a, 2=b, 3=c, ..., 26=z, 27=aa).
+So the axial coordinate (1,4) is written as a4.
+
+Vertex-coordinates are notated as the tile-coordinate of the tile it touches,
+but with an `s` or `n` appended at the end to indicate if it is the south corner
 or the north corner of that tile.
 
-An edge-coordinate is notated as an ordered tuple with the axial q and r value
-of the tile it borders, and an `NE` or `NW` or `W` to indicate if it is the
-north-east, north-west or west edge of that tile.
+Edge-coordinates are notated as the tile-coordinate of the tile it borders, and
+an `ne` or `nw` or `w` to indicate if it is the north-east, north-west or west
+edge of that tile.
 
 ## Action notation
 
@@ -171,9 +159,9 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
     `S?1`
 
--   Place a village on (3,3, S)
+-   Place a village on (d4n)
 
-    `Pv(3,3,S)`
+    `Pv(d4n)`
 
 -   Trade 1 lumber and 2 ore for 3 brick with player 1
 
@@ -190,7 +178,7 @@ move_robber = { "M" ~ tile_coordinate }
 discard     = { player ~ "D" ~ formula }
 
 steal           = { "S" ~ ("?" | formula) ~ player }
-buy             = { "B" ~ ("v" | "c" | "r" | "d") }
+buy             = { "B" ~ buyable }
 place_village   = { "P" ~ "v" ~ vertex_coordinate }
 place_city      = { "P" ~ "c" ~ vertex_coordinate }
 place_road      = { "P" ~ "r" ~ edge_coordinate }
@@ -198,12 +186,20 @@ use_card        = { "U" ~ ("k" | ("p" ~ formula) | ("m" ~ formula) | "o") }
 trade           = { "T" ~ formula ~ formula ~ player }
 end_turn        = { "E" }
 
+buyable = { "v" | "c" | "r" | "d" }
+
 roll_value = { "(" ~ die_value ~ "+" ~ die_value ~ ")" }
 die_value  = { '1'..'6' }
 
-tile_coordinate     = { "(" ~ integer ~ "," ~ integer ~  ")" }
-vertex_coordinate   = { "(" ~ integer ~ "," ~ integer ~  "," ~ ("S"|"N") ~ ")" }
-edge_coordinate     = { "(" ~ integer ~ "," ~ integer ~  "," ~ ("NE" | "NW" | "W") ~ ")" }
+tile_coordinate     = { "(" ~ q_component ~ r_component ~  ")" }
+vertex_coordinate   = { "(" ~ q_component ~ r_component ~ corner ~ ")" }
+edge_coordinate     = { "(" ~ q_component ~ r_component ~ border ~ ")" }
+
+q_component = @{ 'a'..'z'+ }
+r_component = @{ '1'..'9' ~ '0'..'9'* }
+
+corner = { "n" | "s" }
+border = { "ne" | "nw" | "w" }
 
 formula = { "(" ~ (resource ~ integer?)+ ~ ")" }
 
