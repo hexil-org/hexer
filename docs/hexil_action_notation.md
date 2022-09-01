@@ -106,6 +106,18 @@ Tile-coordinates are notated as axial coordinates. But the first value is
 converted to a letter in spreadsheet-style (1=a, 2=b, 3=c, ..., 26=z, 27=aa).
 So the axial coordinate (1,4) is written as a4.
 
+```
+       d2  e2  f2
+
+     c3  d3  e3  f3
+
+   b4  c4  d4  e4  f4
+
+     b5  c5  d5  e5
+
+       b6  c6  d6
+```
+
 Vertex-coordinates are notated as the tile-coordinate of the tile it touches,
 but with an `s` or `n` appended at the end to indicate if it is the south corner
 or the north corner of that tile.
