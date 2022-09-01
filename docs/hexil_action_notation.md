@@ -63,8 +63,6 @@ The standard order of die-values is the numerical order.
 
 ## Roll-value notation
 
-The roll-value notation is the unordered tuple notation of two die-values.
-
 A roll-value notation MUST start with an open parenthesis and end with a closing
 parenthesis.
 
@@ -115,6 +113,24 @@ or the north corner of that tile.
 Edge-coordinates are notated as the tile-coordinate of the tile it borders, and
 an `ne` or `nw` or `w` to indicate if it is the north-east, north-west or west
 edge of that tile.
+
+### Examples
+
+-   Axial (4,4), The center hex in the default game setup
+
+    `(d4)`
+
+-   The top corner of the center hex in the default game setup
+
+    `(d4n)`
+
+-   The bottom corner of the center hex in the default game setup
+
+    `(d4s)`
+
+-   The left edge of the center hex in the default game setup
+
+    `(d4w)`
 
 ## Action notation
 
