@@ -1,7 +1,10 @@
 use actix::{Actor, ActorContext, Addr, Context, Handler, Message, Supervised};
 use rand::seq::SliceRandom;
 
-use crate::player::{self, Player};
+use crate::{
+    action::Action,
+    player::{self, Player},
+};
 
 pub struct Game {
     players: Vec<Addr<Player>>,
@@ -20,8 +23,9 @@ pub struct Disconnect;
 
 #[derive(Message)]
 #[rtype("()")]
-pub struct EndTurn {
+pub struct DoAction {
     pub player_id: u8,
+    pub action: Action,
 }
 
 impl Actor for Game {
@@ -71,16 +75,21 @@ impl Handler<Connect> for Game {
     }
 }
 
-impl Handler<EndTurn> for Game {
+impl Handler<DoAction> for Game {
     type Result = ();
 
-    fn handle(&mut self, msg: EndTurn, _: &mut Context<Self>) -> Self::Result {
-        assert_eq!(msg.player_id, self.current_player);
+    fn handle(&mut self, msg: DoAction, _: &mut Context<Self>) -> Self::Result {
+        match msg.action {
+            Action::EndTurn => {
+                // TODO: don't assert
+                assert_eq!(msg.player_id, self.current_player);
 
-        self.current_player = (self.current_player + 1) % 3;
+                self.current_player = (self.current_player + 1) % 3;
 
-        for player in &self.players {
-            player.do_send(player::TurnEnded);
+                for player in &self.players {
+                    player.do_send(player::ActionDone { action: msg.action });
+                }
+            }
         }
     }
 }

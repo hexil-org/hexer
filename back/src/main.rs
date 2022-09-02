@@ -3,6 +3,7 @@ use actix_web::{get, web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use actix_web_actors::ws;
 use std::env;
 
+mod action;
 mod game;
 mod player;
 

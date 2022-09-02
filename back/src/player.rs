@@ -1,10 +1,13 @@
-use std::time::{Duration, Instant};
+use std::{
+    str::FromStr,
+    time::{Duration, Instant},
+};
 
 use actix::prelude::*;
 use actix_web_actors::ws;
 use serde::{Deserialize, Serialize};
 
-use crate::game;
+use crate::{action::Action, game};
 
 const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(5);
 const CLIENT_PONG_TIMEOUT: Duration = Duration::from_secs(10);
@@ -24,7 +27,9 @@ pub struct PlayerId(pub u8);
 
 #[derive(Message)]
 #[rtype("()")]
-pub struct TurnEnded;
+pub struct ActionDone {
+    pub action: Action,
+}
 
 #[derive(Message)]
 #[rtype("()")]
@@ -34,14 +39,14 @@ pub struct GameEnded;
 #[serde(tag = "t", rename_all = "camelCase")]
 enum OutSocketMessage {
     Id { id: u8 },
-    TurnEnded,
+    Done { han: String },
     GameEnded,
 }
 
 #[derive(Deserialize)]
 #[serde(tag = "t", rename_all = "camelCase")]
 enum InSocketMessage {
-    EndTurn,
+    Do { han: String },
 }
 
 impl Actor for Player {
@@ -84,10 +89,14 @@ impl Player {
 
     fn handle_socket_message(&self, msg: InSocketMessage) {
         match msg {
-            InSocketMessage::EndTurn => {
+            InSocketMessage::Do { han } => {
                 // TODO: Don't unwrap
-                self.game.do_send(game::EndTurn {
+                let action = Action::from_str(&han).unwrap();
+
+                // TODO: Don't unwrap
+                self.game.do_send(game::DoAction {
                     player_id: self.id.unwrap(),
+                    action,
                 });
             }
         }
@@ -142,11 +151,16 @@ impl Handler<PlayerId> for Player {
     }
 }
 
-impl Handler<TurnEnded> for Player {
+impl Handler<ActionDone> for Player {
     type Result = ();
 
-    fn handle(&mut self, _: TurnEnded, ctx: &mut Self::Context) {
-        ctx.text(serde_json::to_string(&OutSocketMessage::TurnEnded).unwrap());
+    fn handle(&mut self, msg: ActionDone, ctx: &mut Self::Context) {
+        ctx.text(
+            serde_json::to_string(&OutSocketMessage::Done {
+                han: msg.action.to_string(),
+            })
+            .unwrap(),
+        );
     }
 }
 
