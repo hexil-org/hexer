@@ -1,12 +1,26 @@
 export type Coordinate = [number, number, number];
+export type HSN = string;
 export type Player = bigint;
-export type Position = {};
+export type Resource =
+    | "B" // brick
+    | "G" // grain
+    | "L" // lumber
+    | "O" // ore
+    | "W" // wool
+    | "S" // sea
+    | null; // 'air'
+export type Role = "road" | "settlement"; // TODO: Add support for cities
 
-// TODO: Add support for cities
-export type Role = "road" | "settlement";
+// Use axial coordinates in a 2-dimensional array
+export type TileSet = Tile[][];
 
-// A piece can be identified by its role and the player it belongs to (its 'color')
 export interface Piece {
     role: Role;
     player: Player;
+}
+
+export interface Tile {
+    type: Resource;
+    number: bigint | null;
+    robber: boolean;
 }
