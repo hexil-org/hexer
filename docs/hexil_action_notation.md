@@ -166,7 +166,7 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 | Buy a village             | -             | `B`  | Village (`v`)             |                              |                 |
 | Buy a city                | -             | `B`  | City (`c`)                |                              |                 |
 | Buy a road                | -             | `B`  | Road (`r`)                |                              |                 |
-| Buy a development card    | -             | `B`  | Development Card (`d`)    | Card (Maybe CardCode)        |                 |
+| Buy a development card    | -             | `B`  | Development Card (`d`)    | Of Type (Maybe CardCode)     |                 |
 | Place a village           | -             | `P`  | Village (`v`)             | Location (VertexCoordinate)  |                 |
 | Place a city              | -             | `P`  | City (`c`)                | Location (VertexCoordinate)  |                 |
 | Place a road              | -             | `P`  | Road (`r`)                | Location (EdgeCoordinate)    |                 |
@@ -211,9 +211,13 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
     `Uk`
 
--   Buy an unknown development card
+-   Buy a development card of unknown type
 
     `Bd?`
+
+-   You bought a development card of type monopoly
+
+    `Bdm`
 
 -   End the turn
 
