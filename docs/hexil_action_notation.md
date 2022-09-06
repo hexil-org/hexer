@@ -22,10 +22,24 @@ the cover value, notated with `?`.
 | Ore      | `O`  |
 | Wool     | `W`  |
 
-### Standard Order
+### Standard order
 
 The standard order of resource codes is the alphabetical order. A mnemonic for
 this order is 'BeeGLOW' (think of a bee glowing).
+
+## Development card notation
+
+| Development Card | Code |
+| ---------------- | ---- |
+| Knight           | `k`  |
+| Monopoly         | `m`  |
+| Road building    | `o`  |
+| Victory point    | `v`  |
+| Year of plenty   | `y`  |
+
+### Standard order
+
+The standard order of development card codes is the alphabetical order.
 
 ## Formula notation
 
@@ -143,7 +157,7 @@ edge of that tile.
 To form an action, take one row in the table and concatenate from left to right.
 Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
-| Description               | Subject (who) | Verb | Direct Object (what)      | Goal                         | Indirect object |
+| Description               | Subject (who) | Verb | Direct Object (what)      | Second Object                | Indirect object |
 | :------------------------ | :------------ | :--- | :------------------------ | :--------------------------- | :-------------- |
 | Roll                      | -             | `R`  | Value (Maybe Roll-value)  |                              |                 |
 | Move Robber               | -             | `M`  | -                         | Destination (TileCoordinate) |                 |
@@ -152,14 +166,14 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 | Buy a village             | -             | `B`  | Village (`v`)             |                              |                 |
 | Buy a city                | -             | `B`  | City (`c`)                |                              |                 |
 | Buy a road                | -             | `B`  | Road (`r`)                |                              |                 |
-| Buy a development card    | -             | `B`  | Development Card (`d`)    |                              |                 |
+| Buy a development card    | -             | `B`  | Development Card (`d`)    | Card (Maybe CardCode)        |                 |
 | Place a village           | -             | `P`  | Village (`v`)             | Location (VertexCoordinate)  |                 |
 | Place a city              | -             | `P`  | City (`c`)                | Location (VertexCoordinate)  |                 |
 | Place a road              | -             | `P`  | Road (`r`)                | Location (EdgeCoordinate)    |                 |
 | Use a knight card         | -             | `U`  | Knight Card (`k`)         |                              |                 |
-| Use a year of plenty card | -             | `U`  | Year of plenty card (`y`) | Resources (Formula)          | -               |
 | Use a monopoly card       | -             | `U`  | Monopoly Card (`m`)       | Resource (Formula)           | -               |
 | Use a road card           | -             | `U`  | Road Card (`o`)           |                              |                 |
+| Use a year of plenty card | -             | `U`  | Year of plenty card (`y`) | Resources (Formula)          | -               |
 | Trade                     | -             | `T`  | (Formula)                 | For (Formula)                | With (Player)   |
 | End turn                  | -             | `E`  | -                         |                              |                 |
 
@@ -197,6 +211,10 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
     `Uk`
 
+-   Buy an unknown development card
+
+    `Bd?`
+
 -   End the turn
 
     `E`
@@ -214,15 +232,13 @@ move_robber = { "M" ~ tile_coordinate }
 discard     = { player ~ "D" ~ formula }
 
 steal         = { "S" ~ ("?" | formula) ~ player }
-buy           = { "B" ~ buyable }
+buy           = { "B" ~ (("v" | "c" | "r") | ("d" ~ ("?" | card))) }
 place_village = { "P" ~ "v" ~ vertex_coordinate }
 place_city    = { "P" ~ "c" ~ vertex_coordinate }
 place_road    = { "P" ~ "r" ~ edge_coordinate }
 use_card      = { "U" ~ ("k" | ("y" ~ formula) | ("m" ~ formula) | "o") }
 trade         = { "T" ~ formula ~ formula ~ player }
 end_turn      = { "E" }
-
-buyable = { "v" | "c" | "r" | "d" }
 
 roll_value = { "(" ~ die_value ~ "+" ~ die_value ~ ")" }
 die_value  = { '1'..'6' }
@@ -241,6 +257,7 @@ formula = { "(" ~ (resource ~ amount?)+ ~ ")" }
 amount = { ('1'..'9' ~ '0'..'9'*) }
 
 resource = { "B" | "G" | "L" | "O" | "W" }
+card = { "k" | "m" | "o" | "v" | "y" }
 
 player = { '0'..'6' }
 ```
