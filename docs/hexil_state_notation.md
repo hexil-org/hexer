@@ -7,6 +7,24 @@ HSN consists of four parts:
 -   Distribution
 -   Turn
 
+Each part must be separated with whitespace from the other parts.
+
+## Example
+
+Example of a complete HSN:
+
+```
+3SSSS/2SOWLS/1SGBWBS/SGLDLOS/SLOGWS1/SBGWS2/SSSS3
+10,2,9/12,6,4,10/9,11,3,9/8,3,4,5/5,6,11
+d2nw,e2nw,c3w,O-f3ne,B-g4w,W-b5w,L-e6nw,a7ne,G-c7nw
+
+c3n,d5s|d3n,c5n|c4n ||e3n d2w,d6nw|e2w,d4w|f2w,c4ne d4
+
+B5O2W||G2W k2m|k|v2 0|3|2 2 1
+
+2 R D1,3 . r2
+```
+
 ## Map
 
 The map, or static part of the board.
@@ -116,7 +134,7 @@ Just the player number. `0` if the bank has it (not awarded).
 Just the player number. `0` if the bank has it (not awarded).
 
 ```
-2
+1
 ```
 
 ## Turn
