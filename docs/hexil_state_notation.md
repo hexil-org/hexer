@@ -4,7 +4,7 @@ HSN consists of four parts:
 
 -   Map
 -   Placements
--   Allocations
+-   Distribution
 -   Turn
 
 ## Map
@@ -74,7 +74,7 @@ Just the coordinate.
 d4
 ```
 
-## Players
+## Distribution
 
 ### Held resources
 
