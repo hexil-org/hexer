@@ -38,7 +38,15 @@ A list of locations, comma separated. Coordinates are sorted row-column. A
 slash separates players.
 
 ```
-c3n,d5s/d3n,c5n/e3n,c4n
+c3n,d5s/d3n,c5n/c4n
+```
+
+### City locations
+
+Exactly like the village locations.
+
+```
+//e3n
 ```
 
 ### Road locations
