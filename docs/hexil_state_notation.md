@@ -63,5 +63,5 @@ d2w,d6nw/e2w,d4w/f2w,c4ne
 Just the coordinate.
 
 ```
-d4n
+d4
 ```
