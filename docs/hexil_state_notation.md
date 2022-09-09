@@ -34,11 +34,11 @@ d2nw,e2nw,c3w,O-f3ne,B-g4w,W-b5w,L-e6nw,a7ne,G-c7nw
 
 ### Village locations
 
-A list of locations, comma separated. Coordinates are sorted row-column. A
-slash separates players.
+A list of locations, comma separated. Coordinates are sorted row-column. The
+pipe symbol `|` separates players.
 
 ```
-c3n,d5s/d3n,c5n/c4n
+c3n,d5s|d3n,c5n|c4n
 ```
 
 ### City locations
@@ -46,16 +46,16 @@ c3n,d5s/d3n,c5n/c4n
 Exactly like the village locations.
 
 ```
-//e3n
+||e3n
 ```
 
 ### Road locations
 
-A list of locations, comma separated. Coordinates are sorted row-column. A
-slash separates players.
+A list of locations, comma separated. Coordinates are sorted row-column. The
+pipe symbol `|` separates players.
 
 ```
-d2w,d6nw/e2w,d4w/f2w,c4ne
+d2w,d6nw|e2w,d4w|f2w,c4ne
 ```
 
 ### Robber location
@@ -64,4 +64,95 @@ Just the coordinate.
 
 ```
 d4
+```
+
+## About the players
+
+### Held resources
+
+The resource formula for each player. Players are separated by the pipe symbol.
+
+```
+B5O2W||G2W
+```
+
+### Development cards
+
+The development cards each player holds, _excluding_ any cards bought in the
+current turn. So these are the cards that the player could use in this turn.
+
+Written like a formula, with the card codes.
+
+```
+k2m|k|v2
+```
+
+### Number of used knights
+
+The number of used knights per player.
+
+```
+0|3|2
+```
+
+### Largest army
+
+Just the player number. `0` if the bank has it (not awarded).
+
+```
+2
+```
+
+### Longest road
+
+Just the player number. `0` if the bank has it (not awarded).
+
+```
+2
+```
+
+## Turn
+
+### Number
+
+Just the turn number. Counting starts at 1.
+
+```
+2
+```
+
+### Rolled
+
+An `R` if the current player already rolled. A dot (`.`) otherwise.
+
+```
+R
+```
+
+### Must
+
+An `S` if the current player must steal now. An `M` if the current player must
+move the robber now. Or a `D` followed by a list of players that must discard
+now. Or a `P` followed by a list of items that the player _must_ place now. A
+dot (`.`) otherwise.
+
+```
+D1,3
+```
+
+### Bought development cards
+
+A formula of development cards bought this turn. A `.` otherwise.
+
+```
+.
+```
+
+### Placeable items
+
+A formula of items that the player _may_ place immediately (road building
+card). A `.` otherwise.
+
+```
+r2
 ```
