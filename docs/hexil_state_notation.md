@@ -1,6 +1,7 @@
 # HSN: Hexil State Notation
 
-HSN consists of multiple parts. The parts by whitespace.
+HSN consists of multiple parts. The parts muts be separated by whitespace and
+must occur in the same order as in the document.
 
 ## Static
 
