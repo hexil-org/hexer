@@ -40,6 +40,15 @@ slash separates players.
 c3n,d5s/d3n,c5n/e3n,c4n
 ```
 
+### Road locations
+
+A list of locations, comma separated. Coordinates are sorted row-column. A
+slash separates players.
+
+```
+d2w,d6nw/e2w,d4w/f2w,c4ne
+```
+
 ### Robber location
 
 Just the coordinate.
