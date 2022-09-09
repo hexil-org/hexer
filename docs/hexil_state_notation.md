@@ -3,7 +3,7 @@
 HSN consists of multiple parts. The parts muts be separated by whitespace and
 must occur in the same order as in the document.
 
-## Static
+## Board, static
 
 ### Tile kinds
 
@@ -30,7 +30,7 @@ and a dash.
 d2nw,e2nw,c3w,O-f3ne,B-g4w,W-b5w,L-e6nw,a7ne,G-c7nw
 ```
 
-## Dynamic
+## Board, dynamic
 
 ### Village locations
 
@@ -66,7 +66,7 @@ Just the coordinate.
 d4
 ```
 
-## About the players
+## Players
 
 ### Held resources
 
