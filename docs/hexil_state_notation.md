@@ -22,7 +22,7 @@ c3n,d5s|d3n,c5n|c4n ||e3n d2w,d6nw|e2w,d4w|f2w,c4ne d4
 
 B5O2W||G2W k2m|k|v2 0|3|2 2 1
 
-2 R D1,3 . r2
+2 R . . r2
 ```
 
 ## Map
