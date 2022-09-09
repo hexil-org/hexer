@@ -1,9 +1,15 @@
 # HSN: Hexil State Notation
 
-HSN consists of multiple parts. The parts muts be separated by whitespace and
-must occur in the same order as in the document.
+HSN consists of four parts:
 
-## Board, static
+-   Map
+-   Placements
+-   Allocations
+-   Turn
+
+## Map
+
+The map, or static part of the board.
 
 ### Tile kinds
 
@@ -30,7 +36,9 @@ and a dash.
 d2nw,e2nw,c3w,O-f3ne,B-g4w,W-b5w,L-e6nw,a7ne,G-c7nw
 ```
 
-## Board, dynamic
+## Placements
+
+The placements, or dynamic part of the board.
 
 ### Village locations
 
