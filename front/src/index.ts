@@ -1,3 +1,5 @@
+import "./board";
+
 function once(target: EventTarget, name: string) {
     return new Promise((resolve, reject) => {
         target.addEventListener(
