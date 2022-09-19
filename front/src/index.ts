@@ -1,4 +1,4 @@
-import "./board";
+import board from "./board";
 
 function once(target: EventTarget, name: string) {
     return new Promise((resolve, reject) => {
@@ -22,6 +22,11 @@ function getBackendUrl() {
 }
 
 async function main() {
+    const boardElement = document.createElement("canvas");
+    boardElement.id = "board";
+    board(boardElement, {});
+    document.body.appendChild(boardElement);
+
     console.log("Trying to connect to the backend..");
 
     const backendUrl = getBackendUrl();
