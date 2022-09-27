@@ -5,7 +5,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "mix --production",
-        "start": "mix && mix watch --hot"
+        "start": "mix watch --hot"
     },
     "keywords": [],
     "license": "AGPL-3.0-or-later",
