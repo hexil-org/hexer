@@ -1,59 +1,23 @@
 import Config from "./config";
-import { drawTile } from "./draw";
+import Konva from "konva";
+import { parse } from "./hsn";
 
-export function board(element: HTMLCanvasElement, config: Config) {
-    element.width = 2160;
-    element.height = 2160;
-    const drawContext = element.getContext("2d");
+export function board(element: HTMLDivElement, config: Config) {
+    const stage = new Konva.Stage({
+        container: element,
+        width: window.innerWidth,
+        height: window.innerHeight,
+    });
 
-    if (drawContext === null) return;
+    const layer = new Konva.Layer();
+    const tiles = new Konva.Group();
 
-    drawTile(
-        0,
-        0,
-        {
-            type: "sea",
-        },
-        drawContext
-    );
-    drawTile(
-        1,
-        0,
-        {
-            type: "sea",
-        },
-        drawContext
-    );
-    drawTile(
-        0,
-        1,
-        {
-            type: "sea",
-        },
-        drawContext
-    );
-    drawTile(
-        1,
-        1,
-        {
-            type: "sea",
-        },
-        drawContext
-    );
-    drawTile(
-        0,
-        2,
-        {
-            type: "sea",
-        },
-        drawContext
-    );
-    drawTile(
-        1,
-        2,
-        {
-            type: "sea",
-        },
-        drawContext
-    );
+    layer.add(tiles);
+    stage.add(layer);
+
+    const state = parse("3ssss/2slwgs/1sbobws/sdlglgs/sbwwos/sogls/ssss");
+
+    for (const t of state.tiles) {
+        t.render(tiles);
+    }
 }

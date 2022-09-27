@@ -1,5 +1,5 @@
-import * as types from "./types";
+import { Tile } from "./tile";
 
 export interface State {
-    tiles: types.Tiles;
+    tiles: Tile[];
 }

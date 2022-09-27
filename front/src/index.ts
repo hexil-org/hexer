@@ -22,7 +22,7 @@ function getBackendUrl() {
 }
 
 async function main() {
-    const boardElement = document.createElement("canvas");
+    const boardElement = document.createElement("div");
     boardElement.id = "board";
     board(boardElement, {});
     document.body.appendChild(boardElement);

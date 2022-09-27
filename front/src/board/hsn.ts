@@ -1,4 +1,5 @@
 import * as types from "./types";
+import { Tile } from "./tile";
 import { State } from "./state";
 
 const resources: { [letter: string]: types.Role } = {
@@ -12,7 +13,7 @@ const resources: { [letter: string]: types.Role } = {
 };
 
 export function parse(hsn: types.HSN): State {
-    let state: State = { tiles: [[]] };
+    let state: State = { tiles: [] };
 
     let row = 0,
         col = 0;
@@ -24,7 +25,7 @@ export function parse(hsn: types.HSN): State {
                 return state;
             case "/":
                 col = 0;
-                state.tiles[++row] = [];
+                row += 1;
                 break;
             default:
                 if (c >= "0" && c <= "9") {
@@ -39,10 +40,7 @@ export function parse(hsn: types.HSN): State {
 
                     col += parseInt(s);
                 } else if (c in resources) {
-                    state.tiles[row][col] = {
-                        type: resources[c],
-                        robber: c === "d",
-                    };
+                    state.tiles.push(new Tile(resources[c], 1, col, row));
 
                     col++;
                 }

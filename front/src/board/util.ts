@@ -12,3 +12,18 @@ export function pos2key(col: number, row: number): string {
 
     return colName + row;
 }
+
+/**
+ * Converts a pair of axial coordinates into cartesian coordinates.
+ */
+export function axial2cartesian(
+    axialX: number,
+    axialY: number,
+    radius: number
+): [number, number] {
+    const x =
+        2 * radius * Math.cos(Math.PI / 6) * (axialX + axialY / 2) + radius;
+    const y = 1.5 * radius * axialY + radius;
+
+    return [x, y];
+}
