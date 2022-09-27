@@ -18,8 +18,6 @@ export class Tile {
     private readonly number: number | null;
     private readonly coords: [number, number];
 
-    private hasRobber: boolean = false;
-
     constructor(
         type: Role,
         number: number | null,
@@ -31,13 +29,7 @@ export class Tile {
         this.coords = axial2cartesian(axialX, axialY, this.radius);
     }
 
-    public setRobber(robber: boolean = true) {
-        this.hasRobber = robber;
-
-        // TODO
-    }
-
-    public render(group: Konva.Group) {
+    public render(group: Konva.Layer) {
         const hexagon = new Konva.RegularPolygon({
             x: this.coords[0],
             y: this.coords[1],

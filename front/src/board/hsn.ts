@@ -1,6 +1,6 @@
 import * as types from "./types";
 import { Tile } from "./tile";
-import { State } from "./state";
+import { HeadlessState } from "./state";
 
 const resources: { [letter: string]: types.Role } = {
     b: "brick",
@@ -12,8 +12,8 @@ const resources: { [letter: string]: types.Role } = {
     s: "sea",
 };
 
-export function parse(hsn: types.HSN): State {
-    let state: State = { tiles: [] };
+export function parse(hsn: types.HSN): HeadlessState {
+    let state: HeadlessState = { tiles: [] };
 
     let row = 0,
         col = 0;

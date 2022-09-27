@@ -24,7 +24,9 @@ function getBackendUrl() {
 async function main() {
     const boardElement = document.createElement("div");
     boardElement.id = "board";
-    board(boardElement, {});
+    board(boardElement, {
+        initialHSN: "",
+    });
     document.body.appendChild(boardElement);
 
     console.log("Trying to connect to the backend..");

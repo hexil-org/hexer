@@ -1,6 +1,7 @@
 import Config from "./config";
 import Konva from "konva";
 import { parse } from "./hsn";
+import { State } from "./state";
 
 export function board(element: HTMLDivElement, config: Config) {
     const stage = new Konva.Stage({
@@ -20,4 +21,6 @@ export function board(element: HTMLDivElement, config: Config) {
     for (const t of state.tiles) {
         t.render(tiles);
     }
+
+    tiles.destroyChildren();
 }
