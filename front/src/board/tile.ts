@@ -3,6 +3,7 @@ import Konva from "konva";
 import { axial2cartesian } from "./util";
 
 export class Tile {
+    private readonly radius = 50;
     private readonly colors = {
         brick: "#d5725b",
         grain: "#e7bf67",
@@ -13,12 +14,9 @@ export class Tile {
         sea: "#337dd4",
     };
 
-    private readonly radius = 50;
-
     private readonly type: Role;
     private readonly number: number | null;
-    private readonly axialX: number;
-    private readonly axialY: number;
+    private readonly coords: [number, number];
 
     private hasRobber: boolean = false;
 
@@ -30,19 +28,19 @@ export class Tile {
     ) {
         this.type = type;
         this.number = number;
-        this.axialX = axialX;
-        this.axialY = axialY;
+        this.coords = axial2cartesian(axialX, axialY, this.radius);
     }
 
     public setRobber(robber: boolean = true) {
         this.hasRobber = robber;
+
+        // TODO
     }
 
     public render(group: Konva.Group) {
-        const coords = axial2cartesian(this.axialX, this.axialY, this.radius);
         const hexagon = new Konva.RegularPolygon({
-            x: coords[0],
-            y: coords[1],
+            x: this.coords[0],
+            y: this.coords[1],
             sides: 6,
             radius: this.radius,
             fill: this.colors[this.type],
