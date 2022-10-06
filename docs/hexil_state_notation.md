@@ -13,13 +13,13 @@ HSN consists of five parts:
 Example of a complete HSN:
 
 ```
-3SSSS/2SOWLS/1SGBWBS/SGLDLOS/SLOGWS1/SBGWS2/SSSS3
-/10,2,9/12,6,4,10/9,11,3,9/8,3,4,5/5,6,11
-d2nw,e2nw,c3w,Of3ne,Bg4w,Wb5w,Le6nw,a7ne,Gc7nw
+[3SSSS/2SOWLS/1SGBWBS/SGLDLOS/SLOGWS1/SBGWS2/SSSS3]
+[/10,2,9/12,6,4,10/9,11,3,9/8,3,4,5/5,6,11]
+[d2nw,e2nw,c3w,Of3ne,Bg4w,Wb5w,Le6nw,a7ne,Gc7nw]
 
-||e3n c3n,d5s|d3n,c5n|c4n d2w,d6nw|e2w,d4w|f2w,c4ne d4
+[||e3n] [c3n,d5s|d3n,c5n|c4n] [d2w,d6nw|e2w,d4w|f2w,c4ne] d4
 
-B5O2W||G2W k2m|k|v2 0|3|2 2 1
+[B5O2W||G2W] [k2m|k|v2] [0|3|2] 2 1
 
 2
 
@@ -35,7 +35,7 @@ The map, or static part of the board.
 Axial, row-column based.
 
 ```
-3SSSS/2SOWLS/1SGBWBS/SGLDLOS/SLOGWS1/SBGWS2/SSSS3
+[3SSSS/2SOWLS/1SGBWBS/SGLDLOS/SLOGWS1/SBGWS2/SSSS3]
 ```
 
 ### Resource numbers
@@ -43,7 +43,7 @@ Axial, row-column based.
 For each B, G, L, O or W in the tile kinds, give the corresponding number.
 
 ```
-/10,2,9/12,6,4,10/9,11,3,9/8,3,4,5/5,6,11
+[/10,2,9/12,6,4,10/9,11,3,9/8,3,4,5/5,6,11]
 ```
 
 ### Harbors
@@ -52,7 +52,7 @@ Comma separated. Coordinates are sorted row-column. Optionally first a resource
 and a dash.
 
 ```
-d2nw,e2nw,c3w,Of3ne,Bg4w,Wb5w,Le6nw,a7ne,Gc7nw
+[d2nw,e2nw,c3w,Of3ne,Bg4w,Wb5w,Le6nw,a7ne,Gc7nw]
 ```
 
 ## Placements
@@ -65,7 +65,7 @@ A list of locations, comma separated. Coordinates are sorted row-column. The
 pipe symbol `|` separates players.
 
 ```
-||e3n
+[||e3n]
 ```
 
 ### Village locations
@@ -73,7 +73,7 @@ pipe symbol `|` separates players.
 Exactly like the city locations.
 
 ```
-c3n,d5s|d3n,c5n|c4n
+[c3n,d5s|d3n,c5n|c4n]
 ```
 
 ### Road locations
@@ -82,7 +82,7 @@ A list of locations, comma separated. Coordinates are sorted row-column. The
 pipe symbol `|` separates players.
 
 ```
-d2w,d6nw|e2w,d4w|f2w,c4ne
+[d2w,d6nw|e2w,d4w|f2w,c4ne]
 ```
 
 ### Robber location
@@ -93,7 +93,6 @@ Just the coordinate.
 d4
 ```
 
-
 ## Distribution
 
 ### Held resources
@@ -101,7 +100,7 @@ d4
 The resource formula for each player. Players are separated by the pipe symbol.
 
 ```
-B5O2W||G2W
+[B5O2W||G2W]
 ```
 
 ### Development cards
@@ -112,7 +111,7 @@ current turn. So these are the cards that the player could use in this turn.
 Written like a formula, with the card codes.
 
 ```
-k2m|k|v2
+[k2m|k|v2]
 ```
 
 ### Number of used knights
@@ -120,7 +119,7 @@ k2m|k|v2
 The number of used knights per player.
 
 ```
-0|3|2
+[0|3|2]
 ```
 
 ### Largest army
@@ -165,7 +164,7 @@ now. Or a `P` followed by a list of items that the player _must_ place now. A
 dot (`.`) otherwise.
 
 ```
-D1,3
+D[1,3]
 ```
 
 ### Bought development cards
