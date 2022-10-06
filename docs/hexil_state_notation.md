@@ -1,13 +1,12 @@
 # HSN: Hexil State Notation
 
-HSN consists of four parts:
+HSN consists of five parts:
 
 -   Map
 -   Placements
 -   Distribution
+-   Turn number
 -   Turn
-
-Each part must be separated with whitespace from the other parts.
 
 ## Example
 
@@ -22,7 +21,9 @@ d4 c3n,d5s|d3n,c5n|c4n ||e3n d2w,d6nw|e2w,d4w|f2w,c4ne
 
 B5O2W||G2W k2m|k|v2 0|3|2 2 1
 
-2 R . . r2
+2
+
+R . . r2
 ```
 
 ## Map
@@ -137,15 +138,15 @@ Just the player number. `0` if the bank has it (not awarded).
 1
 ```
 
-## Turn
-
-### Number
+## Turn number
 
 Just the turn number. Counting starts at 1.
 
 ```
 2
 ```
+
+## Turn
 
 ### Rolled
 
