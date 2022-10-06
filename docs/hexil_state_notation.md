@@ -15,7 +15,7 @@ Example of a complete HSN:
 ```
 3SSSS/2SOWLS/1SGBWBS/SGLDLOS/SLOGWS1/SBGWS2/SSSS3
 /10,2,9/12,6,4,10/9,11,3,9/8,3,4,5/5,6,11
-d2nw,e2nw,c3w,O-f3ne,B-g4w,W-b5w,L-e6nw,a7ne,G-c7nw
+d2nw,e2nw,c3w,Of3ne,Bg4w,Wb5w,Le6nw,a7ne,Gc7nw
 
 ||e3n c3n,d5s|d3n,c5n|c4n d2w,d6nw|e2w,d4w|f2w,c4ne d4
 
@@ -46,13 +46,13 @@ For each B, G, L, O or W in the tile kinds, give the corresponding number.
 /10,2,9/12,6,4,10/9,11,3,9/8,3,4,5/5,6,11
 ```
 
-### Harbor locations
+### Harbors
 
 Comma separated. Coordinates are sorted row-column. Optionally first a resource
 and a dash.
 
 ```
-d2nw,e2nw,c3w,O-f3ne,B-g4w,W-b5w,L-e6nw,a7ne,G-c7nw
+d2nw,e2nw,c3w,Of3ne,Bg4w,Wb5w,Le6nw,a7ne,Gc7nw
 ```
 
 ## Placements
