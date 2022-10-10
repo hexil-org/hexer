@@ -1,5 +1,5 @@
 import { Tile } from "./tile";
 
-export interface HeadlessState {
+export interface State {
     tiles: Tile[];
 }

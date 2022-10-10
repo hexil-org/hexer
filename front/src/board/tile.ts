@@ -3,7 +3,7 @@ import Konva from "konva";
 import { axial2cartesian } from "./util";
 
 export class Tile {
-    private readonly radius = 50;
+    private readonly radius = 75;
     private readonly colors = {
         brick: "#d5725b",
         grain: "#e7bf67",
@@ -29,7 +29,7 @@ export class Tile {
         this.coords = axial2cartesian(axialX, axialY, this.radius);
     }
 
-    public render(group: Konva.Layer) {
+    public render(group: Konva.Group) {
         const hexagon = new Konva.RegularPolygon({
             x: this.coords[0],
             y: this.coords[1],

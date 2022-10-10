@@ -1,5 +1,4 @@
-import board from "./board";
-
+/*
 function once(target: EventTarget, name: string) {
     return new Promise((resolve, reject) => {
         target.addEventListener(
@@ -22,13 +21,6 @@ function getBackendUrl() {
 }
 
 async function main() {
-    const boardElement = document.createElement("div");
-    boardElement.id = "board";
-    board(boardElement, {
-        initialHSN: "",
-    });
-    document.body.appendChild(boardElement);
-
     console.log("Trying to connect to the backend..");
 
     const backendUrl = getBackendUrl();
@@ -42,6 +34,15 @@ async function main() {
         const msg = JSON.parse(response.data);
         console.log("Received ", msg);
     }
+}*/
+
+import board from "./board";
+function main() {
+    const boardElement = document.getElementById("board") as HTMLDivElement;
+
+    const b = board("3ssss/2slwgs/1sbobws/sdlglgs/sbwwos/sogls/ssss", {
+        boardElement: boardElement,
+    });
 }
 
 window.onload = main;
