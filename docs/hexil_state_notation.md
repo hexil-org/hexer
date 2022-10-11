@@ -183,3 +183,58 @@ card). A `.` otherwise.
 ```
 r2
 ```
+
+# Grammar
+
+```rs
+hsn = { map ~ placements ~ distribution ~ turn_number ~ turn }
+
+map = { tiles ~ numbers ~ harbors }
+tiles = { "[" ~ tile_row ~ ("/" ~ tile_row)* ~ "]" }
+numbers = { "[" ~ number_row ~ ("/" ~ number_row)* ~ "]" }
+harbors = { "[" ~ harbor ~ ("," ~ harbor)* ~ "]" }
+
+tile_row = { (skip | tile)* }
+skip = @{ positive_integer }
+number_row = { (number ~ ("," ~ number)*)? }
+number = @{ "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" }
+harbor = ${ resource? ~ edge_coordinate }
+
+placements = { city_locations ~ village_locations ~ road_locations ~ robber_location }
+city_locations = { "TODO" }
+village_locations = { "TODO" }
+road_locations = { "TODO" }
+robber_location = { "TODO" }
+
+distribution = { resources ~ development_cards ~ number_of_used_knights ~ largest_army_holder ~ longest_road_holder }
+resources = { "TODO" }
+development_cards = { "TODO" }
+number_of_used_knights = { "TODO" }
+largest_army_holder = { "TODO" }
+longest_road_holder = { "TODO" }
+
+turn_number = { "TODO" }
+
+turn = { rolled ~ must ~ bought ~ placable }
+rolled = { "TODO" }
+must = { "TODO" }
+bought = { "TODO" }
+placable = { "TODO" }
+
+tile = @{ "S" | "D" | resource }
+resource = @{ "B" | "G" | "L" | "O" | "W" }
+positive_integer = @{ '1'..'9' ~ '0'..'9'* }
+
+tile_coordinate   = { q_component ~ r_component }
+vertex_coordinate = { q_component ~ r_component ~ corner }
+edge_coordinate   = { q_component ~ r_component ~ border }
+
+q_component = @{ 'a'..'z'+ }
+r_component = @{ '1'..'9' ~ '0'..'9'* }
+
+corner = { "n" | "s" }
+border = { "ne" | "nw" | "w" }
+
+
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+```
