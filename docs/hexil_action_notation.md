@@ -107,9 +107,6 @@ Read these first:
 -   Axial coordinates: https://www.redblobgames.com/grids/hexagons/#coordinates-axial
 -   Hexagon grid relationships: https://www.redblobgames.com/grids/parts/#hexagon-coordinates
 
-A coordinate MUST start with an open parenthesis and end with a closing
-parenthesis.
-
 Tile-coordinates are notated as axial coordinates. But the first value is
 notated in spreadsheet-style (1=a, 2=b, 3=c, ..., 26=z, 27=aa). So the axial
 coordinate (1,4) is written as a4.
@@ -138,19 +135,19 @@ edge of that tile.
 
 -   Axial (4,4), The center hex in the default game setup
 
-    `(d4)`
+    `d4`
 
 -   The top corner of the center hex in the default game setup
 
-    `(d4n)`
+    `d4n`
 
 -   The bottom corner of the center hex in the default game setup
 
-    `(d4s)`
+    `d4s`
 
 -   The left edge of the center hex in the default game setup
 
-    `(d4w)`
+    `d4w`
 
 ## Action notation
 
@@ -162,18 +159,18 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 | Roll                      | -             | `R`  | Value (Maybe Roll-value)  |                              |                 |
 | Move Robber               | -             | `M`  | -                         | Destination (TileCoordinate) |                 |
 | Discard                   | (Player)      | `D`  | Resources (Formula)       |                              |                 |
-| Steal                     | -             | `S`  | Resource (Maybe Formula)  |                              | From (Player)   |
-| Buy a village             | -             | `B`  | Village (`v`)             |                              |                 |
-| Buy a city                | -             | `B`  | City (`c`)                |                              |                 |
-| Buy a road                | -             | `B`  | Road (`r`)                |                              |                 |
-| Buy a development card    | -             | `B`  | Development Card (`d`)    | Of Type (Maybe CardCode)     |                 |
-| Place a village           | -             | `P`  | Village (`v`)             | Location (VertexCoordinate)  |                 |
-| Place a city              | -             | `P`  | City (`c`)                | Location (VertexCoordinate)  |                 |
-| Place a road              | -             | `P`  | Road (`r`)                | Location (EdgeCoordinate)    |                 |
-| Use a knight card         | -             | `U`  | Knight Card (`k`)         |                              |                 |
-| Use a monopoly card       | -             | `U`  | Monopoly Card (`m`)       | Resource (Formula)           | -               |
-| Use a road card           | -             | `U`  | Road Card (`o`)           |                              |                 |
-| Use a year of plenty card | -             | `U`  | Year of plenty card (`y`) | Resources (Formula)          | -               |
+| Steal                     | -             | `S`  | Resource (Resource)       |                              | From (Player)   |
+| Buy a village             | -             | `B`  | Village (`V`)             |                              |                 |
+| Buy a city                | -             | `B`  | City (`C`)                |                              |                 |
+| Buy a road                | -             | `B`  | Road (`R`)                |                              |                 |
+| Buy a development card    | -             | `B`  | Development Card (`D`)    | Of Type (Maybe CardCode)     |                 |
+| Place a village           | -             | `P`  | Village (`V`)             | Location (VertexCoordinate)  |                 |
+| Place a city              | -             | `P`  | City (`C`)                | Location (VertexCoordinate)  |                 |
+| Place a road              | -             | `P`  | Road (`R`)                | Location (EdgeCoordinate)    |                 |
+| Use a knight card         | -             | `U`  | Knight Card (`K`)         |                              |                 |
+| Use a monopoly card       | -             | `U`  | Monopoly Card (`M`)       | Resource (Resource)          | -               |
+| Use a road card           | -             | `U`  | Road Card (`A`)           |                              |                 |
+| Use a year of plenty card | -             | `U`  | Year of plenty card (`Y`) | Resources (Formula)          | -               |
 | Trade                     | -             | `T`  | (Formula)                 | For (Formula)                | With (Player)   |
 | End turn                  | -             | `E`  | -                         |                              |                 |
 
@@ -185,7 +182,7 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
 -   Steal 1 ore from player 2
 
-    `S(O)2`
+    `SO2`
 
 -   Player 2 discards 2 ore
 
@@ -195,9 +192,9 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
     `S?1`
 
--   Place a village on (d4n)
+-   Place a village on d4n
 
-    `Pv(d4n)`
+    `PVd4n`
 
 -   Trade 1 lumber and 2 ore for 3 brick with player 1
 
@@ -205,19 +202,19 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
 -   Use a monopoly card to obtain all wool
 
-    `Um(W)`
+    `UMW`
 
 -   Use a knight
 
-    `Uk`
+    `UK`
 
 -   Buy a development card of unknown type
 
-    `Bd?`
+    `BD?`
 
 -   You bought a development card of type monopoly
 
-    `Bdm`
+    `BDM`
 
 -   End the turn
 
@@ -235,21 +232,21 @@ roll        = { "R" ~ ("?" | roll_value) }
 move_robber = { "M" ~ tile_coordinate }
 discard     = { player ~ "D" ~ formula }
 
-steal         = { "S" ~ ("?" | formula) ~ player }
-buy           = { "B" ~ (("v" | "c" | "r") | ("d" ~ ("?" | card))) }
-place_village = { "P" ~ "v" ~ vertex_coordinate }
-place_city    = { "P" ~ "c" ~ vertex_coordinate }
-place_road    = { "P" ~ "r" ~ edge_coordinate }
-use_card      = { "U" ~ ("k" | ("y" ~ formula) | ("m" ~ formula) | "o") }
+steal         = { "S" ~ ("?" | resource) ~ player }
+buy           = { "B" ~ (("V" | "C" | "R") | ("D" ~ ("?" | card))) }
+place_village = { "P" ~ "V" ~ vertex_coordinate }
+place_city    = { "P" ~ "C" ~ vertex_coordinate }
+place_road    = { "P" ~ "R" ~ edge_coordinate }
+use_card      = { "U" ~ ("K" | ("Y" ~ formula) | ("M" ~ resource) | "A") }
 trade         = { "T" ~ formula ~ formula ~ player }
 end_turn      = { "E" }
 
 roll_value = { "(" ~ die_value ~ "+" ~ die_value ~ ")" }
 die_value  = { '1'..'6' }
 
-tile_coordinate   = { "(" ~ q_component ~ r_component ~  ")" }
-vertex_coordinate = { "(" ~ q_component ~ r_component ~ corner ~ ")" }
-edge_coordinate   = { "(" ~ q_component ~ r_component ~ border ~ ")" }
+tile_coordinate   = { q_component ~ r_component }
+vertex_coordinate = { q_component ~ r_component ~ corner }
+edge_coordinate   = { q_component ~ r_component ~ border }
 
 q_component = @{ 'a'..'z'+ }
 r_component = @{ '1'..'9' ~ '0'..'9'* }
@@ -261,7 +258,7 @@ formula = { "(" ~ (resource ~ amount?)+ ~ ")" }
 amount = { ('1'..'9' ~ '0'..'9'*) }
 
 resource = { "B" | "G" | "L" | "O" | "W" }
-card = { "k" | "m" | "o" | "v" | "y" }
+card = { "K" | "M" | "A" | "V" | "Y" }
 
 player = { '0'..'6' }
 ```
