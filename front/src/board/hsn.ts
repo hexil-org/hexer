@@ -3,13 +3,13 @@ import { Tile } from "./tile";
 import { State } from "./state";
 
 const resources: { [letter: string]: types.Role } = {
-    b: "brick",
-    g: "grain",
-    l: "lumber",
-    o: "ore",
-    w: "wool",
-    d: "desert",
-    s: "sea",
+    B: "brick",
+    G: "grain",
+    L: "lumber",
+    O: "ore",
+    W: "wool",
+    D: "desert",
+    S: "sea",
 };
 
 export function parse(hsn: types.HSN): State {
