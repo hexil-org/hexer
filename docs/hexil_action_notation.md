@@ -31,11 +31,11 @@ this order is 'BeeGLOW' (think of a bee glowing).
 
 | Development Card | Code |
 | ---------------- | ---- |
-| Knight           | `k`  |
-| Monopoly         | `m`  |
-| Road building    | `o`  |
-| Victory point    | `v`  |
-| Year of plenty   | `y`  |
+| Knight           | `K`  |
+| Monopoly         | `M`  |
+| Road building    | `O`  |
+| Victory point    | `V`  |
+| Year of plenty   | `Y`  |
 
 ### Standard order
 
