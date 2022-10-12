@@ -31,11 +31,11 @@ this order is 'BeeGLOW' (think of a bee glowing).
 
 | Development Card | Code |
 | ---------------- | ---- |
-| Knight           | `K`  |
-| Monopoly         | `M`  |
-| Road building    | `D`  |
-| Victory point    | `V`  |
-| Year of plenty   | `Y`  |
+| Knight           | `Dk` |
+| Monopoly         | `Dm` |
+| Road building    | `Dr` |
+| Victory point    | `Dv` |
+| Year of plenty   | `Dy` |
 
 ### Standard order
 
@@ -154,25 +154,25 @@ edge of that tile.
 To form an action, take one row in the table and concatenate from left to right.
 Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
-| Description               | Subject (who) | Verb | Direct Object (what)      | Second Object                | Indirect object |
-| :------------------------ | :------------ | :--- | :------------------------ | :--------------------------- | :-------------- |
-| Roll                      | -             | `R`  | Value (Maybe Roll-value)  |                              |                 |
-| Move Robber               | -             | `M`  | -                         | Destination (TileCoordinate) |                 |
-| Discard                   | (Player)      | `D`  | Resources (Formula)       |                              |                 |
-| Steal                     | -             | `S`  | Resource (Resource)       |                              | From (Player)   |
-| Buy a village             | -             | `B`  | Village (`V`)             |                              |                 |
-| Buy a city                | -             | `B`  | City (`C`)                |                              |                 |
-| Buy a road                | -             | `B`  | Road (`R`)                |                              |                 |
-| Buy a development card    | -             | `B`  | Development Card (`D`)    | Of Type (Maybe CardCode)     |                 |
-| Place a village           | -             | `P`  | Village (`V`)             | Location (VertexCoordinate)  |                 |
-| Place a city              | -             | `P`  | City (`C`)                | Location (VertexCoordinate)  |                 |
-| Place a road              | -             | `P`  | Road (`R`)                | Location (EdgeCoordinate)    |                 |
-| Use a knight card         | -             | `U`  | Knight Card (`K`)         |                              |                 |
-| Use a monopoly card       | -             | `U`  | Monopoly Card (`M`)       | Resource (Resource)          | -               |
-| Use a road card           | -             | `U`  | Road Card (`A`)           |                              |                 |
-| Use a year of plenty card | -             | `U`  | Year of plenty card (`Y`) | Resources (Formula)          | -               |
-| Trade                     | -             | `T`  | (Formula)                 | For (Formula)                | With (Player)   |
-| End turn                  | -             | `E`  | -                         |                              |                 |
+| Description               | Subject (who) | Verb | Direct Object (what)       | Second Object                | Indirect object |
+| :------------------------ | :------------ | :--- | :------------------------- | :--------------------------- | :-------------- |
+| Roll                      | -             | `R`  | Value (Maybe Roll-value)   |                              |                 |
+| Move Robber               | -             | `M`  | -                          | Destination (TileCoordinate) |                 |
+| Abandon (discard)         | (Player)      | `A`  | Resources (Formula)        |                              |                 |
+| Steal                     | -             | `S`  | Resource (Resource)        |                              | From (Player)   |
+| Buy a village             | -             | `B`  | Village (`V`)              |                              |                 |
+| Buy a city                | -             | `B`  | City (`C`)                 |                              |                 |
+| Buy a road                | -             | `B`  | Road (`R`)                 |                              |                 |
+| Buy a development card    | -             | `B`  | Development Card (`D?`)    |                              |                 |
+| Place a village           | -             | `P`  | Village (`V`)              | Location (VertexCoordinate)  |                 |
+| Place a city              | -             | `P`  | City (`C`)                 | Location (VertexCoordinate)  |                 |
+| Place a road              | -             | `P`  | Road (`R`)                 | Location (EdgeCoordinate)    |                 |
+| Use a knight card         | -             | `U`  | Knight Card (`Dk`)         |                              |                 |
+| Use a monopoly card       | -             | `U`  | Monopoly Card (`Dm`)       | Resource (Resource)          | -               |
+| Use a road card           | -             | `U`  | Road Card (`Dr`)           |                              |                 |
+| Use a year of plenty card | -             | `U`  | Year of plenty card (`Dy`) | Resources (Formula)          | -               |
+| Trade                     | -             | `T`  | (Formula)                  | For (Formula)                | With (Player)   |
+| End turn                  | -             | `E`  | -                          |                              |                 |
 
 ### Examples
 
@@ -184,9 +184,9 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
     `SO2`
 
--   Player 2 discards 2 ore
+-   Player 2 abandons 2 ore
 
-    `2D(O2)`
+    `2A(O2)`
 
 -   Steal an unknown resource from player 1
 
@@ -202,11 +202,11 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
 -   Use a monopoly card to obtain all wool
 
-    `UMW`
+    `UDmW`
 
 -   Use a knight
 
-    `UK`
+    `UDk`
 
 -   Buy a development card of unknown type
 
@@ -214,7 +214,7 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 
 -   You bought a development card of type monopoly
 
-    `BDM`
+    `BDm`
 
 -   End the turn
 
@@ -225,19 +225,19 @@ Skip cells with dashes (meaning inferred) or blanks (meaning not relevant).
 A Parsing Expression Grammar for [pest](https://pest.rs):
 
 ```rust
-action = { roll | move_robber | discard | steal | buy | place_village |
+action = { roll | move_robber | abandon | steal | buy | place_village |
           place_city | place_road | use_card | trade | end_turn }
 
 roll        = { "R" ~ ("?" | roll_value) }
 move_robber = { "M" ~ tile_coordinate }
-discard     = { player ~ "D" ~ formula }
+abandon     = { player ~ "A" ~ formula }
 
 steal         = { "S" ~ ("?" | resource) ~ player }
-buy           = { "B" ~ (("V" | "C" | "R") | ("D" ~ ("?" | card))) }
+buy           = { "B" ~ ("V" | "C" | "R" | (development | "D?")) }
 place_village = { "P" ~ "V" ~ vertex_coordinate }
 place_city    = { "P" ~ "C" ~ vertex_coordinate }
 place_road    = { "P" ~ "R" ~ edge_coordinate }
-use_card      = { "U" ~ ("K" | ("Y" ~ formula) | ("M" ~ resource) | "A") }
+use_card      = { "U" ~ ("Dk" | ("Dy" ~ formula) | ("Dm" ~ resource) | "Dr") }
 trade         = { "T" ~ formula ~ formula ~ player }
 end_turn      = { "E" }
 
@@ -258,7 +258,13 @@ formula = { "(" ~ (resource ~ amount?)+ ~ ")" }
 amount = { ('1'..'9' ~ '0'..'9'*) }
 
 resource = { "B" | "G" | "L" | "O" | "W" }
-card = { "K" | "M" | "A" | "V" | "Y" }
+development = { knight | road | monopoly | victory_point | year_of_plenty }
+
+knight          = { "Dk" }
+road            = { "Dr" }
+monopoly        = { "Dm" }
+victory_point   = { "Dv" }
+year_of_plenty  = { "Dy" }
 
 player = { '0'..'6' }
 ```
