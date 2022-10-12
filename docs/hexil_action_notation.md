@@ -33,7 +33,7 @@ this order is 'BeeGLOW' (think of a bee glowing).
 | ---------------- | ---- |
 | Knight           | `K`  |
 | Monopoly         | `M`  |
-| Road building    | `O`  |
+| Road building    | `D`  |
 | Victory point    | `V`  |
 | Year of plenty   | `Y`  |
 
