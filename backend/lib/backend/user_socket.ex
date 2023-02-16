@@ -1,4 +1,4 @@
-defmodule UserSocket do
+defmodule Backend.UserSocket do
   use Riverside, otp_app: :backend
 
   @impl Riverside
