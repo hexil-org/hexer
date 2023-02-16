@@ -1,6 +1,6 @@
 import Config
 
-config :backend, PlayerSocketHandler,
+config :backend, Backend.UserSocket,
   port: 8080,
   path: "/",
   max_connections: 10000,
