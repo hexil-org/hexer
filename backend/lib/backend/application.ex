@@ -6,7 +6,7 @@ defmodule Backend.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {Riverside, [handler: PlayerSocketHandler]}
+      {Riverside, [handler: UserSocket]}
     ]
 
     opts = [strategy: :one_for_one, name: Backend.Supervisor]

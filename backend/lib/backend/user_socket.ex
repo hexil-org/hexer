@@ -1,4 +1,4 @@
-defmodule PlayerSocketHandler do
+defmodule UserSocket do
   use Riverside, otp_app: :backend
 
   @impl Riverside
