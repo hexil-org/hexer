@@ -1,5 +1,5 @@
 {
-    "name": "hexer-front",
+    "name": "hexer-frontend",
     "version": "0.1.0",
     "description": "The frontend of hexer",
     "scripts": {

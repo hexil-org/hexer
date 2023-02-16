@@ -1,12 +1,12 @@
 version: "3.3"
 
 services:
-    front:
-        build: "./front"
+    frontend:
+        build: "./frontend"
         restart: unless-stopped
 
-    back:
-        build: "./back"
+    backend:
+        build: "./backend"
         restart: unless-stopped
 
     reverse-proxy:
