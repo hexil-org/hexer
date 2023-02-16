@@ -6,6 +6,7 @@ defmodule Backend.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      {Backend.Game.DynamicSupervisor, []},
       {Riverside, [handler: UserSocket]}
     ]
 

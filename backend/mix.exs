@@ -22,7 +22,8 @@ defmodule Backend.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:riverside, "~> 2.2.1"}
+      {:riverside, "~> 2.2.1"},
+      {:gproc, "0.9.0"}
     ]
   end
 end
