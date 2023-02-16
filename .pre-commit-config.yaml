@@ -6,18 +6,12 @@ repos:
           - id: end-of-file-fixer
           - id: check-yaml
           - id: check-added-large-files
-    - repo: local
+
+    - repo: https://gitlab.com/jvenom/elixir-pre-commit-hooks
+      rev: v1.2.0
       hooks:
-          - id: cargo-fmt
-            name: Format Rust code
-            entry: rustfmt --edition 2021
-            types: [rust]
-            language: system
-    - repo: https://github.com/pappasam/toml-sort
-      rev: "19423fc29e15ecdb79615f5b02239a63b098d9b1"
-      hooks:
-          - id: toml-sort
-            args: [--in-place]
+          - id: mix-format
+
     - repo: https://github.com/pre-commit/mirrors-prettier
       rev: "50c5478ed9e10bf360335449280cf2a67f4edb7a"
       hooks:

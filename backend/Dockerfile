@@ -1,12 +1,16 @@
-FROM rust:1 AS builder
-WORKDIR /home/rust/app
+FROM elixir:1.14.3-alpine as builder
+WORKDIR /source
 COPY . .
 
-RUN cargo build --release
+RUN MIX_ENV=prod mix deps.get
+RUN MIX_ENV=prod mix release
 
-FROM debian:bookworm
+RUN mv _build/prod/rel/backend/ /export
 
-COPY --from=builder /home/rust/app/target/release/hexer-backend .
 
-EXPOSE 80
-CMD ["./hexer-backend", "0.0.0.0:80"]
+FROM elixir:1.14.3-alpine
+WORKDIR /release
+COPY --from=builder /export .
+
+ENTRYPOINT ["bin/backend"]
+CMD ["start"]
