@@ -26,10 +26,10 @@ jobs:
               run: echo "SHORT_HASH=$(git rev-parse --short HEAD)" >>${GITHUB_ENV}
 
             - name: Create the name of the frontend image
-              run: echo "FRONT_IMAGE_NAME=${REGISTRY}/${GITHUB_REPOSITORY,,}-front" >>${GITHUB_ENV}
+              run: echo "FRONTEND_IMAGE_NAME=${REGISTRY}/${GITHUB_REPOSITORY,,}-frontend" >>${GITHUB_ENV}
 
             - name: Create the name of the backend image
-              run: echo "BACK_IMAGE_NAME=${REGISTRY}/${GITHUB_REPOSITORY,,}-back" >>${GITHUB_ENV}
+              run: echo "BACKEND_IMAGE_NAME=${REGISTRY}/${GITHUB_REPOSITORY,,}-backend" >>${GITHUB_ENV}
 
             - name: Log in to the GitHub Container registry
               uses: docker/login-action@d398f07826957cd0a18ea1b059cf1207835e60bc
@@ -38,17 +38,17 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Build the front Docker image
-              run: docker image build --tag '${{ env.FRONT_IMAGE_NAME }}:latest' --tag '${{ env.FRONT_IMAGE_NAME }}:${{ env.SHORT_HASH }}' ./front
+            - name: Build the frontend Docker image
+              run: docker image build --tag '${{ env.FRONTEND_IMAGE_NAME }}:latest' --tag '${{ env.FRONTEND_IMAGE_NAME }}:${{ env.SHORT_HASH }}' ./frontend
 
-            - name: Build the back Docker image
-              run: docker image build --tag '${{ env.BACK_IMAGE_NAME }}:latest' --tag '${{ env.BACK_IMAGE_NAME }}:${{ env.SHORT_HASH }}' ./back
+            - name: Build the backend Docker image
+              run: docker image build --tag '${{ env.BACKEND_IMAGE_NAME }}:latest' --tag '${{ env.BACKEND_IMAGE_NAME }}:${{ env.SHORT_HASH }}' ./backend
 
-            - name: Push the front Docker image
-              run: docker image push --all-tags '${{ env.FRONT_IMAGE_NAME }}'
+            - name: Push the frontend Docker image
+              run: docker image push --all-tags '${{ env.FRONTEND_IMAGE_NAME }}'
 
-            - name: Push the back Docker image
-              run: docker image push --all-tags '${{ env.BACK_IMAGE_NAME }}'
+            - name: Push the backend Docker image
+              run: docker image push --all-tags '${{ env.BACKEND_IMAGE_NAME }}'
     deploy:
         name: "Deploy to production"
         runs-on: "ubuntu-latest"

@@ -6,7 +6,7 @@ RUN cargo build --release
 
 FROM debian:bookworm
 
-COPY --from=builder /home/rust/app/target/release/hexer-back .
+COPY --from=builder /home/rust/app/target/release/hexer-backend .
 
 EXPOSE 80
-CMD ["./hexer-back", "0.0.0.0:80"]
+CMD ["./hexer-backend", "0.0.0.0:80"]

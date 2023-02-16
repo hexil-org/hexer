@@ -54,4 +54,4 @@ jobs:
                   key: cargo-${{ hashFiles('**/Cargo.lock') }}
 
             - name: Check coverage report
-              run: cargo llvm-cov --manifest-path back/Cargo.toml
+              run: cargo llvm-cov --manifest-path backend/Cargo.toml

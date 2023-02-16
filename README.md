@@ -9,7 +9,7 @@
 1.  Install Rust and Cargo, for example [using
     _rustup_](https://www.rust-lang.org/tools/install).
 
-2.  Navigate to the `back` directory. Then start the backend:
+2.  Navigate to the `backend` directory. Then start the backend:
 
     ```sh
     cargo run
@@ -19,7 +19,7 @@
 
 1.  [Install nodejs](https://nodejs.org/en/).
 
-2.  Navigate to the `front` directory. Then first install the dependencies:
+2.  Navigate to the `frontend` directory. Then first install the dependencies:
 
     ```sh
     npm install
