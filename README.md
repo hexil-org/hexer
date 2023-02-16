@@ -6,13 +6,13 @@
 
 ### Backend
 
-1.  Install Rust and Cargo, for example [using
-    _rustup_](https://www.rust-lang.org/tools/install).
+1.  Install Elixir, for example [using
+    _kiex_](https://github.com/taylor/kiex).
 
 2.  Navigate to the `backend` directory. Then start the backend:
 
     ```sh
-    cargo run
+    mix run --no-halt
     ```
 
 ### Frontend
