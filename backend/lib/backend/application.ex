@@ -7,7 +7,7 @@ defmodule Backend.Application do
   def start(_type, _args) do
     children = [
       {Backend.Game.DynamicSupervisor, []},
-      {Riverside, [handler: UserSocket]}
+      {Riverside, [handler: Backend.UserSocket]}
     ]
 
     opts = [strategy: :one_for_one, name: Backend.Supervisor]
