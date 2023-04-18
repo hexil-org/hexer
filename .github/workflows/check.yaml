@@ -15,6 +15,12 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
+            - name: Setup beam
+              uses: erlef/setup-beam@v1
+              with:
+                  otp-version: 25
+                  elixir-version: 1.14.4
+
             - name: Set up Python
               uses: actions/setup-python@v3
 
@@ -31,12 +37,12 @@ jobs:
               run: pre-commit run --all
 
     unit:
-        name: "OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}"
+        name: "Unit tests (OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}})"
         runs-on: "ubuntu-20.04"
         strategy:
             matrix:
-                otp: ["24.1.7"]
-                elixir: ["1.13.1"]
+                otp: ["23", "24", "25"]
+                elixir: ["1.14.4"]
         steps:
             - uses: actions/checkout@v3
             - uses: erlef/setup-beam@v1
