@@ -43,5 +43,5 @@ jobs:
               with:
                   otp-version: ${{matrix.otp}}
                   elixir-version: ${{matrix.elixir}}
-            - run: mix deps.get
-            - run: mix test
+            - run: cd backend && mix deps.get
+            - run: cd backend && mix test
