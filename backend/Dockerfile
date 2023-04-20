@@ -3,6 +3,7 @@ WORKDIR /source
 COPY . .
 
 RUN MIX_ENV=prod mix local.hex --force
+RUN MIX_ENV=prod mix local.rebar --force
 RUN MIX_ENV=prod mix deps.get
 RUN MIX_ENV=prod mix release
 
