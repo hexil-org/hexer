@@ -28,4 +28,9 @@ defmodule HexerBackend.ParserTest do
     assert Parser.parse_action("2A(O2)") ==
              {:ok, %{who: %{player_number: 2}, verb: :abandon, what: %{ore: 2}}}
   end
+
+  test "parses 'Place village' action" do
+    assert Parser.parse_action("PVd4n") ==
+             {:ok, %{verb: :place, what: :village, at: %{q: 4, r: 4, corner: :north}}}
+  end
 end
