@@ -5,19 +5,35 @@ defmodule HexerBackend.Parser do
 
   roll_value =
     ignore(string("("))
-    |> concat(die_value)
+    |> concat(die_value |> unwrap_and_tag(:low))
     |> ignore(string("+"))
-    |> concat(die_value)
+    |> concat(die_value |> unwrap_and_tag(:high))
     |> ignore(string(")"))
-    |> tag(:what)
 
   roll =
     string("R")
     |> replace(:roll)
     |> unwrap_and_tag(:verb)
-    |> concat(roll_value)
+    |> concat(roll_value |> tag(:what))
 
-  action = roll
+  q_component =
+    ascii_string([?a..?z], min: 1)
+    # TODO: actually implement instead of constant
+    |> replace(3)
+
+  r_component = integer(min: 1)
+
+  tile_coordinate =
+    unwrap_and_tag(q_component, :q)
+    |> concat(r_component |> unwrap_and_tag(:r))
+
+  move_robber =
+    string("M")
+    |> replace(:move_robber)
+    |> unwrap_and_tag(:verb)
+    |> concat(tile_coordinate |> tag(:to))
+
+  action = choice([roll, move_robber])
 
   defparsecp(:parsec_action, action |> eos())
 
@@ -26,7 +42,7 @@ defmodule HexerBackend.Parser do
     {:ok, to_map_deep(result)}
   end
 
-  defp to_map_deep([{k, v} | t]) do
+  defp to_map_deep([{k, v} | t]) when is_atom(k) do
     Map.put_new(to_map_deep(t), k, to_map_deep(v))
   end
 
