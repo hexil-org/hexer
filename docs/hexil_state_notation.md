@@ -19,11 +19,11 @@ Example of a complete HSN:
 
 [||e3n] [c3n,d5s|d3n,c5n|c4n] [d2w,d6nw|e2w,d4w|f2w,c4ne] d4
 
-[B5O2W||G2W] [k2m|k|v2] [0|3|2] 2 1
+[B5O2W||G2W] [Dk2Dm|Dk|Dv2] [0|3|2] 2 1
 
 2
 
-R . . r2
+R . . R2
 ```
 
 ## Map
@@ -111,7 +111,7 @@ current turn. So these are the cards that the player could use in this turn.
 Written like a formula, with the card codes.
 
 ```
-[k2m|k|v2]
+[Dk2Dm|Dk|Dv2]
 ```
 
 ### Number of used knights
@@ -181,5 +181,74 @@ A formula of items that the player _may_ place immediately (road building
 card). A `.` otherwise.
 
 ```
-r2
+R2
+```
+
+## Grammar
+
+A Parsing Expression Grammar for [pest](https://pest.rs):
+
+```rust
+state = { map ~ placements ~ distribution ~ turn_number ~ turn }
+
+map          = { tile_kinds ~ resource_numbers ~ harbors }
+placements   = { city_locations ~ village_locations ~ road_locations ~ robber_location }
+distribution = { held_resources ~ held_development_cards ~ number_of_used_knights ~ largest_army_holder ~ longest_road_holder }
+turn_number  = { amount }
+turn         = { rolled_flag ~ forced_flag ~ bought_development_cards ~ placeable_items }
+
+tile_kinds           = { "[" ~ (tile_kinds_row ~ ("/" ~ tile_kinds_row)*)? ~ "]" }
+tile_kinds_row       = { (skip | tile_kind)* }
+skip                 = { amount }
+resource_numbers     = { "[" ~ (resource_numbers_row ~ ("/" ~ resource_numbers_row)*)? ~ "]" }
+resource_numbers_row = { (amount ~ ("," ~ amount)*)? }
+harbors              = { "[" ~ (harbor ~ ("," ~ harbor)*)? ~ "]" }
+harbor               = { resource? ~ edge_coordinate }
+
+city_locations    = { per_player_vertex_coordinate_list }
+village_locations = { per_player_vertex_coordinate_list }
+road_locations    = { per_player_edge_coordinate_list }
+robber_location   = { tile_coordinate }
+
+per_player_vertex_coordinate_list = _{ "[" ~ (vertex_coordinate_list ~ ("|" ~ vertex_coordinate_list)*)? ~ "]" }
+vertex_coordinate_list            =  { (vertex_coordinate ~ ("," ~ vertex_coordinate)*)? }
+per_player_edge_coordinate_list   = _{ "[" ~ (edge_coordinate_list ~ ("|" ~ edge_coordinate_list)*)? ~ "]" }
+edge_coordinate_list              =  { (edge_coordinate ~ ("," ~ edge_coordinate)*)? }
+
+held_resources         = { "[" ~ (formula? ~ ("|" ~ formula?)*)? ~ "]" }
+held_development_cards = { "[" ~ (development_card_formula? ~ ("|" ~ development_card_formula?)*)? ~ "]" }
+number_of_used_knights = { "[" ~ (integer? ~ ("|" ~ integer?)*)? ~ "]" }
+largest_army_holder    = { player }
+longest_road_holder    = { player }
+
+rolled_flag              = { "R" | "." }
+forced_flag              = { "S" | "M" | ("D" ~ "[" ~ (player ~ ("," ~ player)*)? ~ "]") | ("P" ~ "[" ~ (player ~ ("," ~ player)*)? ~ "]") | "." }
+bought_development_cards = { development_card_formula | "." }
+placeable_items          = { item_formula | "." }
+
+tile_coordinate   =  { q_component ~ r_component }
+vertex_coordinate =  { q_component ~ r_component ~ corner }
+edge_coordinate   =  { q_component ~ r_component ~ border }
+q_component       = @{ 'a'..'z'+ }
+r_component       = @{ '1'..'9' ~ '0'..'9'* }
+corner            =  { "n" | "s" }
+border            =  { "ne" | "nw" | "w" }
+
+item_formula             =  { (item ~ amount?)+ }
+development_card_formula =  { (development ~ amount?)+ }
+formula                  =  { (resource ~ amount?)+ }
+tile_kind                =  { "S" | "D" | resource }
+resource                 =  { "B" | "G" | "L" | "O" | "W" }
+item                     =  { "V" | "C" | "R" }
+development              =  { knight | road | monopoly | victory_point | year_of_plenty }
+amount                   = @{ '1'..'9' ~ '0'..'9'* }
+integer                  = @{ '0'..'9'+ }
+player                   = @{ '0'..'6' }
+knight                   =  { "Dk" }
+road                     =  { "Dr" }
+monopoly                 =  { "Dm" }
+victory_point            =  { "Dv" }
+year_of_plenty           =  { "Dy" }
+
+WHITESPACE = _{ " " | "\t" | "\n" }
 ```
