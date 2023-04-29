@@ -181,7 +181,10 @@ defmodule HexerBackend.Parser do
     |> concat(bracketed_resource_fomula |> tag(:for))
     |> concat(player |> tag(:with))
 
-  action = choice([roll, move_robber, abandon, steal, buy, place, use_development, trade])
+  end_turn = string("E") |> replace(:end_turn) |> unwrap_and_tag(:verb)
+
+  action =
+    choice([roll, move_robber, abandon, steal, buy, place, use_development, trade, end_turn])
 
   def to_map_deep([{k, v} | t]) when is_atom(k) do
     Map.put_new(to_map_deep(t), k, to_map_deep(v))

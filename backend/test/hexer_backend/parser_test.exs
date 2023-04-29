@@ -142,4 +142,8 @@ defmodule HexerBackend.ParserTest do
                 with: %{player_number: 1}
               }}
   end
+
+  test "Parses 'End turn' action" do
+    assert Parser.parse_action("E") == {:ok, %{verb: :end_turn}}
+  end
 end
