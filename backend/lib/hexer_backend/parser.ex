@@ -1,7 +1,7 @@
 defmodule HexerBackend.Parser do
   import NimbleParsec
 
-  defp roll_value_from_roll_pair([l, r]) do
+  defp roll_pair_to_roll_value([l, r]) do
     %{low: min(l, r), high: max(l, r)}
   end
 
@@ -31,7 +31,7 @@ defmodule HexerBackend.Parser do
     |> concat(die_value)
     |> ignore(string(")"))
     |> wrap()
-    |> map({:roll_value_from_roll_pair, []})
+    |> map({:roll_pair_to_roll_value, []})
 
   q_component =
     ascii_string([?a..?z], min: 1)
