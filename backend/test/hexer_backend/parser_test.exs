@@ -18,6 +18,11 @@ defmodule HexerBackend.ParserTest do
     assert Parser.parse_action("Maa180") == {:ok, %{verb: :move_robber, to: %{q: 27, r: 180}}}
   end
 
+  test "parses 'Abandon' action" do
+    assert Parser.parse_action("2A(O2)") ==
+             {:ok, %{who: %{player_number: 2}, verb: :abandon, what: %{ore: 2}}}
+  end
+
   test "parses 'Steal' action" do
     assert Parser.parse_action("SO2") ==
              {:ok, %{verb: :steal, what: :ore, from: %{player_number: 2}}}
@@ -28,9 +33,9 @@ defmodule HexerBackend.ParserTest do
              {:ok, %{verb: :steal, what: :unknown, from: %{player_number: 1}}}
   end
 
-  test "parses 'Abandon' action" do
-    assert Parser.parse_action("2A(O2)") ==
-             {:ok, %{who: %{player_number: 2}, verb: :abandon, what: %{ore: 2}}}
+  test "parses 'Steal unknown from bank' action (nonsensical but should work)" do
+    assert Parser.parse_action("S?0") ==
+             {:ok, %{verb: :steal, what: :unknown, from: %{player_number: 0}}}
   end
 
   test "parses 'Place village' action" do

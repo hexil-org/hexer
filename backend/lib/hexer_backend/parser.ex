@@ -18,6 +18,8 @@ defmodule HexerBackend.Parser do
     |> List.foldr(0, fn digit, acc -> digit + 26 * acc end)
   end
 
+  unknown = string("?") |> replace(:unknown)
+
   die_value = integer(min: 1, max: 6)
 
   roll_value =
@@ -29,12 +31,6 @@ defmodule HexerBackend.Parser do
     |> wrap()
     |> map({:roll_value_from_roll_pair, []})
 
-  roll =
-    string("R")
-    |> replace(:roll)
-    |> unwrap_and_tag(:verb)
-    |> concat(roll_value |> unwrap_and_tag(:what))
-
   q_component =
     ascii_string([?a..?z], min: 1)
     |> map({:letters_to_int, []})
@@ -45,27 +41,58 @@ defmodule HexerBackend.Parser do
     unwrap_and_tag(q_component, :q)
     |> concat(r_component |> unwrap_and_tag(:r))
 
+  player =
+    integer(min: 1)
+    |> unwrap_and_tag(:player_number)
+
+  resource = string("TODO")
+
+  resource_formula = string("TODO")
+
+  roll =
+    string("R")
+    |> replace(:roll)
+    |> unwrap_and_tag(:verb)
+    |> concat(roll_value |> unwrap_and_tag(:what))
+
   move_robber =
     string("M")
     |> replace(:move_robber)
     |> unwrap_and_tag(:verb)
     |> concat(tile_coordinate |> tag(:to))
 
-  action = choice([roll, move_robber])
+  abandon =
+    player
+    |> unwrap_and_tag(:who)
+    |> concat(string("A") |> replace(:abandon) |> unwrap_and_tag(:verb))
+    |> concat(resource_formula |> tag(:what))
 
-  defp to_map_deep([{k, v} | t]) when is_atom(k) do
+  steal =
+    string("S")
+    |> replace(:steal)
+    |> unwrap_and_tag(:verb)
+    |> concat(choice([unknown, resource]) |> unwrap_and_tag(:what))
+    |> concat(player |> unwrap_and_tag(:from))
+
+  action = choice([roll, move_robber, abandon, steal])
+
+  def to_map_deep([{k, v} | t]) when is_atom(k) do
     Map.put_new(to_map_deep(t), k, to_map_deep(v))
   end
 
-  defp to_map_deep([]) do
+  def to_map_deep([]) do
     %{}
   end
 
-  defp to_map_deep(l) when is_list(l) do
+  def to_map_deep({k, v}) when is_atom(k) do
+    %{k => v}
+  end
+
+  def to_map_deep(l) when is_list(l) do
     List.to_tuple(l)
   end
 
-  defp to_map_deep(x) do
+  def to_map_deep(x) do
     x
   end
 
