@@ -14,6 +14,10 @@ defmodule HexerBackend.ParserTest do
     assert Parser.parse_action("Md4") == {:ok, %{verb: :move_robber, to: %{q: 4, r: 4}}}
   end
 
+  test "parses 'Move Robber' action with big coordinate" do
+    assert Parser.parse_action("Maa180") == {:ok, %{verb: :move_robber, to: %{q: 27, r: 180}}}
+  end
+
   test "parses 'Steal' action" do
     assert Parser.parse_action("SO2") ==
              {:ok, %{verb: :steal, what: :ore, from: %{player_number: 2}}}

@@ -5,6 +5,19 @@ defmodule HexerBackend.Parser do
     %{low: min(l, r), high: max(l, r)}
   end
 
+  defp letter_to_int(letter) do
+    alphabet = ~w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+    Enum.find_index(alphabet, fn c -> c == letter end) + 1
+  end
+
+  defp letters_to_int(letters) when is_bitstring(letters) do
+    letters
+    |> String.upcase()
+    |> String.graphemes()
+    |> Enum.map(&letter_to_int(&1))
+    |> List.foldr(0, fn digit, acc -> digit + 26 * acc end)
+  end
+
   die_value = integer(min: 1, max: 6)
 
   roll_value =
@@ -24,8 +37,7 @@ defmodule HexerBackend.Parser do
 
   q_component =
     ascii_string([?a..?z], min: 1)
-    # TODO: actually implement instead of constant
-    |> replace(3)
+    |> map({:letters_to_int, []})
 
   r_component = integer(min: 1)
 
