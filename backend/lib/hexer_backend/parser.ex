@@ -39,9 +39,32 @@ defmodule HexerBackend.Parser do
 
   r_component = integer(min: 1)
 
+  corner =
+    choice([
+      string("n") |> replace(:north),
+      string("s") |> replace(:south)
+    ])
+
+  border =
+    choice([
+      string("ne") |> replace(:north_east),
+      string("nw") |> replace(:north_west),
+      string("w") |> replace(:west)
+    ])
+
   tile_coordinate =
     unwrap_and_tag(q_component, :q)
-    |> concat(r_component |> unwrap_and_tag(:r))
+    |> concat(unwrap_and_tag(r_component, :r))
+
+  vertex_coordinate =
+    unwrap_and_tag(q_component, :q)
+    |> concat(unwrap_and_tag(r_component, :r))
+    |> concat(unwrap_and_tag(corner, :corner))
+
+  edge_coordinate =
+    unwrap_and_tag(q_component, :q)
+    |> concat(unwrap_and_tag(r_component, :r))
+    |> concat(unwrap_and_tag(border, :border))
 
   player =
     integer(min: 1)
@@ -60,12 +83,13 @@ defmodule HexerBackend.Parser do
     times(resource |> concat(choice([integer(min: 1), empty() |> replace(1)])) |> wrap, min: 1)
     |> map({List, :to_tuple, []})
 
-  structure =
-    choice([
-      string("V") |> replace(:village),
-      string("C") |> replace(:city),
-      string("R") |> replace(:road)
-    ])
+  village = string("V") |> replace(:village)
+
+  city = string("C") |> replace(:city)
+
+  road = string("R") |> replace(:road)
+
+  structure = choice([village, city, road])
 
   development =
     choice([
@@ -122,8 +146,17 @@ defmodule HexerBackend.Parser do
     |> unwrap_and_tag(:verb)
     |> concat(buyable |> tag(:what))
 
-  place = string("P")
-  # TODO: IMPLEMENT
+  place =
+    string("P")
+    |> replace(:place)
+    |> unwrap_and_tag(:verb)
+    |> concat(
+      choice([
+        village |> unwrap_and_tag(:what) |> concat(vertex_coordinate |> tag(:at)),
+        city |> unwrap_and_tag(:what) |> concat(vertex_coordinate |> tag(:at)),
+        road |> unwrap_and_tag(:what) |> concat(edge_coordinate |> tag(:at))
+      ])
+    )
 
   action = choice([roll, move_robber, abandon, steal, buy, place])
 
