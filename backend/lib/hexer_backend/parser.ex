@@ -53,13 +53,6 @@ defmodule HexerBackend.Parser do
 
   action = choice([roll, move_robber])
 
-  defparsecp(:parsec_action, action |> eos())
-
-  def parse_action(str) do
-    {:ok, result, _, _, _, _} = parsec_action(str)
-    {:ok, to_map_deep(result)}
-  end
-
   defp to_map_deep([{k, v} | t]) when is_atom(k) do
     Map.put_new(to_map_deep(t), k, to_map_deep(v))
   end
@@ -74,5 +67,12 @@ defmodule HexerBackend.Parser do
 
   defp to_map_deep(x) do
     x
+  end
+
+  defparsecp(:parsec_action, action |> eos())
+
+  def parse_action(str) do
+    {:ok, result, _, _, _, _} = parsec_action(str)
+    {:ok, to_map_deep(result)}
   end
 end
