@@ -113,4 +113,22 @@ defmodule HexerBackend.ParserTest do
     assert Parser.parse_action("PRc4nw") ==
              {:ok, %{verb: :place, what: :road, at: %{q: 3, r: 4, border: :north_west}}}
   end
+
+  test "parses 'Use knight development' action" do
+    assert Parser.parse_action("UDk") == {:ok, %{verb: :use_development, what: :knight}}
+  end
+
+  test "parses 'Use monopoly development' action" do
+    assert Parser.parse_action("UDmL") ==
+             {:ok, %{verb: :use_development, what: :knight, on: :lumber}}
+  end
+
+  test "parses 'Use road building development' action" do
+    assert Parser.parse_action("UDr") == {:ok, %{verb: :use_development, what: :road_building}}
+  end
+
+  test "parses 'Use year of plenty development' action" do
+    assert Parser.parse_action("UDy(LO)") ==
+             {:ok, %{verb: :use_development, what: :year_of_plenty, for: %{lumber: 1, ore: 1}}}
+  end
 end
