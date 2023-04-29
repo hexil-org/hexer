@@ -45,7 +45,14 @@ defmodule HexerBackend.Parser do
     integer(min: 1)
     |> unwrap_and_tag(:player_number)
 
-  resource = string("TODO")
+  resource =
+    choice([
+      string("B") |> replace(:brick),
+      string("G") |> replace(:grain),
+      string("L") |> replace(:lumber),
+      string("O") |> replace(:ore),
+      string("W") |> replace(:wool)
+    ])
 
   resource_formula = string("TODO")
 
