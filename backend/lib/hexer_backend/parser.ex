@@ -83,6 +83,11 @@ defmodule HexerBackend.Parser do
     times(resource |> concat(choice([integer(min: 1), empty() |> replace(1)])) |> wrap, min: 1)
     |> map({List, :to_tuple, []})
 
+  bracketed_resource_fomula =
+    ignore(string("("))
+    |> concat(resource_formula)
+    |> ignore(string(")"))
+
   village = string("V") |> replace(:village)
 
   city = string("C") |> replace(:city)
@@ -126,12 +131,7 @@ defmodule HexerBackend.Parser do
     player
     |> unwrap_and_tag(:who)
     |> concat(string("A") |> replace(:abandon) |> unwrap_and_tag(:verb))
-    |> concat(
-      ignore(string("("))
-      |> concat(resource_formula)
-      |> ignore(string(")"))
-      |> tag(:what)
-    )
+    |> concat(bracketed_resource_fomula |> tag(:what))
 
   steal =
     string("S")
@@ -169,15 +169,19 @@ defmodule HexerBackend.Parser do
         road_building |> unwrap_and_tag(:what),
         year_of_plenty
         |> unwrap_and_tag(:what)
-        |> concat(
-          ignore(string("("))
-          |> concat(resource_formula |> tag(:for))
-          |> ignore(string(")"))
-        )
+        |> concat(bracketed_resource_fomula |> tag(:for))
       ])
     )
 
-  action = choice([roll, move_robber, abandon, steal, buy, place, use_development])
+  trade =
+    string("T")
+    |> replace(:trade)
+    |> unwrap_and_tag(:verb)
+    |> concat(bracketed_resource_fomula |> tag(:what))
+    |> concat(bracketed_resource_fomula |> tag(:for))
+    |> concat(player |> tag(:with))
+
+  action = choice([roll, move_robber, abandon, steal, buy, place, use_development, trade])
 
   def to_map_deep([{k, v} | t]) when is_atom(k) do
     Map.put_new(to_map_deep(t), k, to_map_deep(v))

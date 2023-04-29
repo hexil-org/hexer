@@ -131,4 +131,15 @@ defmodule HexerBackend.ParserTest do
     assert Parser.parse_action("UDy(LO)") ==
              {:ok, %{verb: :use_development, what: :year_of_plenty, for: %{lumber: 1, ore: 1}}}
   end
+
+  test "parses 'Trade' action" do
+    assert Parser.parse_action("T(LO2)(B3)1") ==
+             {:ok,
+              %{
+                verb: :trade,
+                what: %{lumber: 1, ore: 2},
+                for: %{brick: 3},
+                with: %{player_number: 1}
+              }}
+  end
 end
