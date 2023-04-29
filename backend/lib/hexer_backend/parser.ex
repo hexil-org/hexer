@@ -20,7 +20,7 @@ defmodule HexerBackend.Parser do
 
   unknown = string("?") |> replace(:unknown)
 
-  die_value = integer(min: 1, max: 6)
+  die_value = integer(min: 1)
 
   roll_value =
     ignore(string("("))
