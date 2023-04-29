@@ -203,7 +203,7 @@ defmodule HexerBackend.Parser do
     x
   end
 
-  defparsecp(:parsec_action, action |> eos())
+  defparsecp(:parsec_action, action |> eos(), export_metadata: true)
 
   def parse_action(str) do
     {:ok, result, _, _, _, _} = parsec_action(str)
