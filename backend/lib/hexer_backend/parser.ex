@@ -122,7 +122,10 @@ defmodule HexerBackend.Parser do
     |> unwrap_and_tag(:verb)
     |> concat(buyable |> tag(:what))
 
-  action = choice([roll, move_robber, abandon, steal, buy])
+  place = string("P")
+  # TODO: IMPLEMENT
+
+  action = choice([roll, move_robber, abandon, steal, buy, place])
 
   def to_map_deep([{k, v} | t]) when is_atom(k) do
     Map.put_new(to_map_deep(t), k, to_map_deep(v))

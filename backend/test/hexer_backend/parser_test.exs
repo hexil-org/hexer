@@ -88,4 +88,29 @@ defmodule HexerBackend.ParserTest do
     assert Parser.parse_action("BDy") ==
              {:ok, %{verb: :buy, what: %{type: :development, which: :year_of_plenty}}}
   end
+
+  test "parses 'Place village' action" do
+    assert Parser.parse_action("PVc4n") ==
+             {:ok, %{verb: :place, what: :village, at: %{q: 3, r: 4, corner: :north}}}
+  end
+
+  test "parses 'Place city' action" do
+    assert Parser.parse_action("PCc4s") ==
+             {:ok, %{verb: :place, what: :city, at: %{q: 3, r: 4, corner: :south}}}
+  end
+
+  test "parses 'Place road on west side' action" do
+    assert Parser.parse_action("PRd3w") ==
+             {:ok, %{verb: :place, what: :road, at: %{q: 3, r: 4, side: :west}}}
+  end
+
+  test "parses 'Place road on north-east side' action" do
+    assert Parser.parse_action("PRd3w") ==
+             {:ok, %{verb: :place, what: :road, at: %{q: 3, r: 4, side: :north_east}}}
+  end
+
+  test "parses 'Place road on north-west side' action" do
+    assert Parser.parse_action("PRd3nw") ==
+             {:ok, %{verb: :place, what: :road, at: %{q: 3, r: 4, side: :north_west}}}
+  end
 end
