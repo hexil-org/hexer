@@ -120,7 +120,7 @@ defmodule HexerBackend.ParserTest do
 
   test "parses 'Use monopoly development' action" do
     assert Parser.parse_action("UDmL") ==
-             {:ok, %{verb: :use_development, what: :knight, on: :lumber}}
+             {:ok, %{verb: :use_development, what: :monopoly, on: :lumber}}
   end
 
   test "parses 'Use road building development' action" do

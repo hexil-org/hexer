@@ -91,14 +91,14 @@ defmodule HexerBackend.Parser do
 
   structure = choice([village, city, road])
 
-  development =
-    choice([
-      string("Dk") |> replace(:knight),
-      string("Dm") |> replace(:monopoly),
-      string("Dr") |> replace(:road_building),
-      string("Dv") |> replace(:victory_point),
-      string("Dy") |> replace(:year_of_plenty)
-    ])
+  knight = string("Dk") |> replace(:knight)
+
+  monopoly = string("Dm") |> replace(:monopoly)
+  road_building = string("Dr") |> replace(:road_building)
+  victory_point = string("Dv") |> replace(:victory_point)
+  year_of_plenty = string("Dy") |> replace(:year_of_plenty)
+
+  development = choice([knight, monopoly, road_building, victory_point, year_of_plenty])
 
   buyable =
     choice([
@@ -158,7 +158,26 @@ defmodule HexerBackend.Parser do
       ])
     )
 
-  action = choice([roll, move_robber, abandon, steal, buy, place])
+  use_development =
+    string("U")
+    |> replace(:use_development)
+    |> unwrap_and_tag(:verb)
+    |> concat(
+      choice([
+        knight |> unwrap_and_tag(:what),
+        monopoly |> unwrap_and_tag(:what) |> concat(resource |> unwrap_and_tag(:on)),
+        road_building |> unwrap_and_tag(:what),
+        year_of_plenty
+        |> unwrap_and_tag(:what)
+        |> concat(
+          ignore(string("("))
+          |> concat(resource_formula |> tag(:for))
+          |> ignore(string(")"))
+        )
+      ])
+    )
+
+  action = choice([roll, move_robber, abandon, steal, buy, place, use_development])
 
   def to_map_deep([{k, v} | t]) when is_atom(k) do
     Map.put_new(to_map_deep(t), k, to_map_deep(v))
