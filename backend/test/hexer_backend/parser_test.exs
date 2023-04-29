@@ -143,7 +143,7 @@ defmodule HexerBackend.ParserTest do
               }}
   end
 
-  test "Parses 'End turn' action" do
+  test "parses 'End turn' action" do
     assert Parser.parse_action("E") == {:ok, %{verb: :end_turn}}
   end
 end
