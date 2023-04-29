@@ -44,8 +44,48 @@ defmodule HexerBackend.ParserTest do
              {:ok, %{verb: :steal, what: :unknown, from: %{player_number: 0}}}
   end
 
-  test "parses 'Place village' action" do
-    assert Parser.parse_action("PVd4n") ==
-             {:ok, %{verb: :place, what: :village, at: %{q: 4, r: 4, corner: :north}}}
+  test "parses 'Buy village' action" do
+    assert Parser.parse_action("BV") ==
+             {:ok, %{verb: :buy, what: %{type: :structure, which: :village}}}
+  end
+
+  test "parses 'Buy city' action" do
+    assert Parser.parse_action("BC") ==
+             {:ok, %{verb: :buy, what: %{type: :structure, which: :city}}}
+  end
+
+  test "parses 'Buy road' action" do
+    assert Parser.parse_action("BR") ==
+             {:ok, %{verb: :buy, what: %{type: :structure, which: :road}}}
+  end
+
+  test "parses 'Buy unknown development' action" do
+    assert Parser.parse_action("BD?") ==
+             {:ok, %{verb: :buy, what: %{type: :development, which: :unknown}}}
+  end
+
+  test "parses 'Buy knight development' action" do
+    assert Parser.parse_action("BDk") ==
+             {:ok, %{verb: :buy, what: %{type: :development, which: :knight}}}
+  end
+
+  test "parses 'Buy 2-road development' action" do
+    assert Parser.parse_action("BDk") ==
+             {:ok, %{verb: :buy, what: %{type: :development, which: :two_roads}}}
+  end
+
+  test "parses 'Buy monopoly development' action" do
+    assert Parser.parse_action("BDm") ==
+             {:ok, %{verb: :buy, what: %{type: :development, which: :monopoly}}}
+  end
+
+  test "parses 'Buy victory point development' action" do
+    assert Parser.parse_action("BDv") ==
+             {:ok, %{verb: :buy, what: %{type: :development, which: :victory_point}}}
+  end
+
+  test "parses 'Buy year of plenty development' action" do
+    assert Parser.parse_action("BDy") ==
+             {:ok, %{verb: :buy, what: %{type: :development, which: :year_of_plenty}}}
   end
 end
