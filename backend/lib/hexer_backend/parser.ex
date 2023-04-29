@@ -1,20 +1,26 @@
 defmodule HexerBackend.Parser do
   import NimbleParsec
 
+  defp roll_value_from_roll_pair([l, r]) do
+    %{low: min(l, r), high: max(l, r)}
+  end
+
   die_value = integer(min: 1, max: 6)
 
   roll_value =
     ignore(string("("))
-    |> concat(die_value |> unwrap_and_tag(:low))
+    |> concat(die_value)
     |> ignore(string("+"))
-    |> concat(die_value |> unwrap_and_tag(:high))
+    |> concat(die_value)
     |> ignore(string(")"))
+    |> wrap()
+    |> map({:roll_value_from_roll_pair, []})
 
   roll =
     string("R")
     |> replace(:roll)
     |> unwrap_and_tag(:verb)
-    |> concat(roll_value |> tag(:what))
+    |> concat(roll_value |> unwrap_and_tag(:what))
 
   q_component =
     ascii_string([?a..?z], min: 1)
