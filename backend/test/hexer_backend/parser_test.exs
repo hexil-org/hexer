@@ -36,12 +36,12 @@ defmodule HexerBackend.ParserTest do
 
   test "parses 'Steal' action with unknown resource" do
     assert Parser.parse_action("S?1") ==
-             {:ok, %{verb: :steal, what: :unknown, from: %{player_number: 1}}}
+             {:ok, %{verb: :steal, what: :unknown_resource, from: %{player_number: 1}}}
   end
 
   test "parses 'Steal unknown from bank' action (nonsensical but should work)" do
     assert Parser.parse_action("S?0") ==
-             {:ok, %{verb: :steal, what: :unknown, from: %{player_number: 0}}}
+             {:ok, %{verb: :steal, what: :unknown_resource, from: %{player_number: 0}}}
   end
 
   test "parses 'Buy village' action" do
@@ -61,7 +61,7 @@ defmodule HexerBackend.ParserTest do
 
   test "parses 'Buy unknown development' action" do
     assert Parser.parse_action("BD?") ==
-             {:ok, %{verb: :buy, what: %{type: :development, which: :unknown}}}
+             {:ok, %{verb: :buy, what: %{type: :development, which: :unknown_development}}}
   end
 
   test "parses 'Buy knight development' action" do
@@ -70,8 +70,8 @@ defmodule HexerBackend.ParserTest do
   end
 
   test "parses 'Buy 2-road development' action" do
-    assert Parser.parse_action("BDk") ==
-             {:ok, %{verb: :buy, what: %{type: :development, which: :two_roads}}}
+    assert Parser.parse_action("BDr") ==
+             {:ok, %{verb: :buy, what: %{type: :development, which: :road_building}}}
   end
 
   test "parses 'Buy monopoly development' action" do

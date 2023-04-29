@@ -18,7 +18,9 @@ defmodule HexerBackend.Parser do
     |> List.foldr(0, fn digit, acc -> digit + 26 * acc end)
   end
 
-  unknown = string("?") |> replace(:unknown)
+  unknown_resource = string("?") |> replace(:unknown_resource)
+
+  unknown_development = string("D?") |> replace(:unknown_development)
 
   die_value = integer(min: 1)
 
@@ -58,6 +60,32 @@ defmodule HexerBackend.Parser do
     times(resource |> concat(choice([integer(min: 1), empty() |> replace(1)])) |> wrap, min: 1)
     |> map({List, :to_tuple, []})
 
+  structure =
+    choice([
+      string("V") |> replace(:village),
+      string("C") |> replace(:city),
+      string("R") |> replace(:road)
+    ])
+
+  development =
+    choice([
+      string("Dk") |> replace(:knight),
+      string("Dm") |> replace(:monopoly),
+      string("Dr") |> replace(:road_building),
+      string("Dv") |> replace(:victory_point),
+      string("Dy") |> replace(:year_of_plenty)
+    ])
+
+  buyable =
+    choice([
+      replace(empty(), :structure)
+      |> unwrap_and_tag(:type)
+      |> concat(structure |> unwrap_and_tag(:which)),
+      replace(empty(), :development)
+      |> unwrap_and_tag(:type)
+      |> concat(choice([development, unknown_development]) |> unwrap_and_tag(:which))
+    ])
+
   roll =
     string("R")
     |> replace(:roll)
@@ -85,10 +113,16 @@ defmodule HexerBackend.Parser do
     string("S")
     |> replace(:steal)
     |> unwrap_and_tag(:verb)
-    |> concat(choice([unknown, resource]) |> unwrap_and_tag(:what))
+    |> concat(choice([unknown_resource, resource]) |> unwrap_and_tag(:what))
     |> concat(player |> unwrap_and_tag(:from))
 
-  action = choice([roll, move_robber, abandon, steal])
+  buy =
+    string("B")
+    |> replace(:buy)
+    |> unwrap_and_tag(:verb)
+    |> concat(buyable |> tag(:what))
+
+  action = choice([roll, move_robber, abandon, steal, buy])
 
   def to_map_deep([{k, v} | t]) when is_atom(k) do
     Map.put_new(to_map_deep(t), k, to_map_deep(v))
