@@ -54,7 +54,9 @@ defmodule HexerBackend.Parser do
       string("W") |> replace(:wool)
     ])
 
-  resource_formula = string("TODO")
+  resource_formula =
+    times(resource |> concat(choice([integer(min: 1), empty() |> replace(1)])) |> wrap, min: 1)
+    |> map({List, :to_tuple, []})
 
   roll =
     string("R")
@@ -72,7 +74,12 @@ defmodule HexerBackend.Parser do
     player
     |> unwrap_and_tag(:who)
     |> concat(string("A") |> replace(:abandon) |> unwrap_and_tag(:verb))
-    |> concat(resource_formula |> tag(:what))
+    |> concat(
+      ignore(string("("))
+      |> concat(resource_formula)
+      |> ignore(string(")"))
+      |> tag(:what)
+    )
 
   steal =
     string("S")

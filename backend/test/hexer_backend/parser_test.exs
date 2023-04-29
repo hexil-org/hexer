@@ -19,8 +19,14 @@ defmodule HexerBackend.ParserTest do
   end
 
   test "parses 'Abandon' action" do
-    assert Parser.parse_action("2A(O2)") ==
-             {:ok, %{who: %{player_number: 2}, verb: :abandon, what: %{ore: 2}}}
+    assert Parser.parse_action("2A(W)") ==
+             {:ok, %{who: %{player_number: 2}, verb: :abandon, what: %{wool: 1}}}
+  end
+
+  test "parses 'Abandon' action with bigger formula" do
+    assert Parser.parse_action("2A(BO2W5)") ==
+             {:ok,
+              %{who: %{player_number: 2}, verb: :abandon, what: %{brick: 1, ore: 2, wool: 5}}}
   end
 
   test "parses 'Steal' action" do
